@@ -1,0 +1,89 @@
+from flask_sqlalchemy import SQLAlchemy 
+
+class User(db.Model):
+    """User class - a user has many entries"""
+
+    __tablename__ = "users"
+
+    # Users log into the app through a username and password. The can provide an
+    # email to request their password if it's forgotten 
+
+    username = db.Column(db.String(100), nullable=False, primary_key=True)
+    password = db.Column(db.String(100), nullable=False) #does this need to be hashed? <input type = password>
+    email = db.Column(db.String(100), nullable=True) # <input type = email>
+
+    def __repr__(self):
+        """Human readable when printed"""
+
+        return "<Username is <%s>, email address is <%s>, and password is \
+        shhhhh we don't tell>" % (self.user_id, self.username)
+
+    @classmethod
+    def get_by_username(cls, username):
+        """Get the number of entries for the username"""
+
+        return User.query.filter_by(username=username).count()
+
+class Entry(db.Model):
+    """A user can have multiple entries"""
+
+    __tablename__ = "entries"
+
+    entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    entry_date = db.Column(db.Datetime, nullable=False) #this can be queried later 
+    username = db.Column(db.String(100), nullable=False, db.ForeignKey('users.username'))
+    tag = db.Column(db.String(25), default="contemplative") # reference in JSON html max = 5
+    # a one to many relationship places the fk on the child table referencing the parent
+
+    user = db.relationship('User', backref='entries') 
+
+    def __repr__(self):
+        """Human readable when printed"""
+
+        return "<Entry id is <%s> with Datetime <%s> for username <%s>\
+        " % (self.entry_id, self.entry_date, self.username)
+
+class Tag(db.Model):
+    """Journal entries can have multiple tags"""
+
+    __tablename__ = "tags"
+
+    tag = db.Column(db.String(25), default="contemplative")
+    # Structuring this correctly? The entry can have up to five tags 
+    tag_2 = db.Column(db.String(25), nullable=True)
+    tag_3 = db.Column(db.String(25), nullable=True)
+    tag_4 = db.Column(db.String(25), nullable=True)
+    tag_5 = db.Column(db.String(25), nullable=True)
+    tag_6 = db.Column(db.String(25), nullable=True)
+
+    
+    @classmethod
+    def get_by_tag_type(cls, tag):
+        """Get all the entries matching that tag"""
+
+        return cls.query.filter_by(tag=tag).all()
+
+class EntryTag(db.Model):
+    """Association table for the many to many relationship between entries and tags"""
+
+    __tablename__ = "entry_tags"
+
+    entrytag_id = db.Column(db.Integer, primary_key=True)
+    entry_id = db.Column(db.Integer, nullable=False, db.ForeignKey('entries.entry_id'))
+    tag = db.Column(db.String(50), nullable=False, db.ForeignKey('tags.tag'))
+
+def connect_to_db(app, db_uri="postgresql:///entry"):
+    """Connects to the database"""
+
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.app = app
+    db.init_app(app)
+
+if __name__ == "__main__":
+
+    from server import app
+    connect_to_db(app)
+
+    print "Connected to DB"
+
