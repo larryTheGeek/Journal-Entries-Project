@@ -14,3 +14,5 @@ def homepage():
     """Display the homepage to the user"""
 
     render_template("homepage.html")
+
+def login():
