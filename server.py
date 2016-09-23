@@ -16,3 +16,7 @@ def homepage():
     render_template("homepage.html")
 
 def login():
+    """Login the user"""
+
+def register():
+    """Register the user"""
