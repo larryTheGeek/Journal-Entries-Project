@@ -31,6 +31,7 @@ class Entry(db.Model):
 
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entry_date = db.Column(db.Datetime, nullable=False) #this can be queried later 
+    entry_body = db.Column(db.String(1000), nullable=False)
     username = db.Column(db.String(100), nullable=False, db.ForeignKey('users.username'))
     tag = db.Column(db.String(25), default="contemplative") # reference in JSON html max = 5
     # a one to many relationship places the fk on the child table referencing the parent

@@ -26,6 +26,15 @@ def register():
 def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""
 
+@app.route('/new_entry')
+def add_entry_to_db():
+    entry_body = request.form["entry"]
+    # add the entry to the model
+    entry_id = Entry(entry_body=entry_body, entry_date=entry_date, username=username, tag=tag)
+
+   db.session.add(entry_id)
+   db.session.commit()
+
 if __name__ == "__main__":
     DebugToolbarExtension(app)
     connect_to_db(app)
