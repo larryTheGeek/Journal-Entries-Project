@@ -15,7 +15,7 @@ app.secret_key = "Shhhhh"
 def homepage():
     """Display the homepage to the user"""
 
-    render_template("homepage.html")
+    return render_template("homepage.html")
 
 def login():
     """Login the user"""
@@ -37,5 +37,5 @@ def add_entry_to_db():
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
-    
+
     app.run(debug=True, host='0.0.0.0', port=5000) #vagrant requires port to be 5000
