@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy 
 
+db = SQLAlchemy()
+
 class User(db.Model):
     """User class - a user has many entries"""
 
@@ -30,10 +32,10 @@ class Entry(db.Model):
     __tablename__ = "entries"
 
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    entry_date = db.Column(db.Datetime, nullable=False) #this can be queried later 
+    entry_date = db.Column(db.Date, nullable=False) #this can be queried later 
     entry_body = db.Column(db.String(1000), nullable=False)
-    username = db.Column(db.String(100), nullable=False, db.ForeignKey('users.username'))
-    tag = db.Column(db.String(25), default="contemplative") # reference in JSON html max = 5
+    username = db.Column(db.String(100), db.ForeignKey('users.username'), nullable=False)
+    tag = db.Column(db.String(25), default='contemplative') # reference in JSON html max = 5
     # a one to many relationship places the fk on the child table referencing the parent
 
     user = db.relationship('User', backref='entries') 
@@ -49,7 +51,7 @@ class Tag(db.Model):
 
     __tablename__ = "tags"
 
-    tag = db.Column(db.String(25), default="contemplative")
+    tag = db.Column(db.String(25), default='contemplative', primary_key=True)
     # Structuring this correctly? The entry can have up to five tags 
     tag_2 = db.Column(db.String(25), nullable=True)
     tag_3 = db.Column(db.String(25), nullable=True)
@@ -70,8 +72,8 @@ class EntryTag(db.Model):
     __tablename__ = "entry_tags"
 
     entrytag_id = db.Column(db.Integer, primary_key=True)
-    entry_id = db.Column(db.Integer, nullable=False, db.ForeignKey('entries.entry_id'))
-    tag = db.Column(db.String(50), nullable=False, db.ForeignKey('tags.tag'))
+    entry_id = db.Column(db.Integer, db.ForeignKey('entries.entry_id'), nullable=False)
+    tag = db.Column(db.String(50), db.ForeignKey('tags.tag'), nullable=False)
 
 def connect_to_db(app, db_uri="postgresql:///entry"):
     """Connects to the database"""
