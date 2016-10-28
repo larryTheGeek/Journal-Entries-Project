@@ -39,6 +39,7 @@ class Entry(db.Model):
     # a one to many relationship places the fk on the child table referencing the parent
 
     user = db.relationship('User', backref='entries') 
+    tag = db.relationship('Tag', backref='tags')
 
     def __repr__(self):
         """Human readable when printed"""
