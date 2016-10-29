@@ -15,12 +15,11 @@
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <button>Login</button>
                 <!-- insert modal window -->
-                <div id='overlay'></div>
+                <div id='overlay'></div> <!--overlay semi-transparent layer that fills the visitor's viewport-->
                 <div id='modal'>
                     <div id='content'>No JavaScript yet!</div>
-                    <a href="#" rel="modal: close">close</a> 
+                    <a href="#" rel="modal: close">close</a> <!--abs positioned -->
                 </div>
-                <p><a href="#ex1" rel="modal:open">Open Modal </a></p>
             </div>
 
             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -45,13 +44,49 @@ var modal = function() {
     $(document).ready(function(){
         $('body').append($overlay, $modal);
     });
+//Center the modal in the view port
+method.center = function() {
+    var top, left;
+ //balance each side of the modal 
+    top = Math.max($(window).height() - $modal.outerHeight(), 0) / 2;
+    left = Math.max($(window).width() - $modal.outerWidth(), 0) / 2;
+//accounts for scrolling
+    $modal.css({
+        top: top + $(window).scrollTop(),
+        left: left + $(window).scrollLeft(),
+    });
+};
 
-method.center = function() {};
+//Open the modal
+method.open = function(settings) {
+    $content.empty().append(settings.content);
 
+    $modal.css({
+        width: settings.width || 'auto',
+        height: settings.height || 'auto'
+    })
 
-method.open = function(settings) {};
+    method.center();
 
-method.close = function() {};
+    $(window).bind('resize.modal', method.center);
+
+    $modal.show();
+    $overlay.show();
+};
+
+//Close the modal
+method.close = function() {
+    $modal.hide();
+    $overlay.hide();
+    $content.empty();
+    //unbind the resize since it doesn't matter when the modal is closed 
+    $(window).unbind('resize.modal');
+};
+
+$close.click(function(e){
+    e.preventDefault();
+    method.close();
+});
 
 return method;
 }());
