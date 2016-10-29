@@ -30,15 +30,26 @@ def register():
     db.session.add(new_user)
     db.session.commit()
 
-    flash("You have just registered! Thank you!")
+    flash("You have just registered! Login to start writing entries. Thank you!")
     return redirect('/')
 
 @app.route('/login', methods=['POST'])
 def login():
     """Login the user"""
     #this function handles the form info from the homepage modal window 
-    email = request.form("email")
+    email = request.form("username")
     password = request.form["password"]
+
+    user = User.query.filter_by(username=username).first()
+
+    if not user: 
+        flash("Username not found")
+        return redirect('/login')
+
+    session["user_id"] = user.user_id
+
+    flash("You are logged in!")
+    return render_template("entry.html")
 
 def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""

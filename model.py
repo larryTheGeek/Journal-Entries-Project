@@ -10,7 +10,8 @@ class User(db.Model):
     # Users log into the app through a username and password. The can provide an
     # email to request their password if it's forgotten 
 
-    username = db.Column(db.String(100), nullable=False, primary_key=True)
+    user_id = db.Column(db.String(100), nullable=False, primary_key=True)    
+    username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False) #does this need to be hashed? <input type = password>
     email = db.Column(db.String(100), nullable=True) # <input type = email>
 
@@ -38,7 +39,7 @@ class Entry(db.Model):
     tag = db.Column(db.String(25), default='contemplative') # reference in JSON html max = 5
     # a one to many relationship places the fk on the child table referencing the parent
 
-    user = db.relationship('User', backref='entries') 
+    user = db.relationship('User', backref='users') 
     tag = db.relationship('Tag', backref='tags')
 
     def __repr__(self):
