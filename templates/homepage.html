@@ -15,11 +15,12 @@
             <div class="col-sm-6 col-md-6 col-lg-6">
                 <button>Login</button>
                 <!-- insert modal window -->
-<!--                 <div id="ex1" style="display:none;">
-                    <p>Sign in Here </p> -->
-<!--                     <a href="#" rel="modal: close">Close</a> or press ESC
+                <div id='overlay'></div>
+                <div id='modal'>
+                    <div id='content'>No JavaScript yet!</div>
+                    <a href="#" rel="modal: close">close</a> 
                 </div>
-                <p><a href="#ex1" rel="modal:open">Open Modal </a></p> -->
+                <p><a href="#ex1" rel="modal:open">Open Modal </a></p>
             </div>
 
             <div class="col-sm-6 col-md-6 col-lg-6">
@@ -29,6 +30,32 @@
         </div>
     </div>
 
+<script type="text/javascript">
+var modal = function() {
+    var method = {},
+    $overlay = $('<div id="overlay"></div>');
+    $modal = $('<div id="modal"></div');
+    $content = $('<div id="content"></div>');
+    $close = $('<a id="close" href="x">close</a>');
 
+    $modal.hide();
+    $overlay.hide();
+    $modal.append($content, $close);
+
+    $(document).ready(function(){
+        $('body').append($overlay, $modal);
+    });
+
+method.center = function() {};
+
+
+method.open = function(settings) {};
+
+method.close = function() {};
+
+return method;
+}());
+
+</script>
 </body>
 {% endblock %}
