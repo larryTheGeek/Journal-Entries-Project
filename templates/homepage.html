@@ -9,25 +9,62 @@
 <br>
 <br>
 <br>
-<body>
+<body id="homepage">
     <div class="dynamic-container">
         <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-6">
-                <button>Login</button>
-                <!-- insert modal window -->
-                <div id='overlay'></div> <!--overlay semi-transparent layer that fills the visitor's viewport-->
-                <div id='modal'>
-                    <div id='content'>No JavaScript yet!</div>
+            <div>
+        <!-- insert modal window -->
+                <div id='overlay'> <!--overlay semi-transparent layer that fills the visitor's viewport-->
+                <div class="col-sm-12 col-md-12 col-lg-12" id="modal">
+                    <div id='content'> 
+                        <p>
+                            <div id="login">   
+                              <h1>Welcome Back!</h1>
+                              
+                              <form action="/" method="post">
+                              
+                                <div class="field-wrap">
+                                <label>
+                                  Username <span class="req">*</span>
+                                </label>
+                                <input type="email"required autocomplete="off"/>
+                              </div>
+                              
+                              <div class="field-wrap">
+                                <label>
+                                  Password<span class="req">*</span>
+                                </label>
+                                <input type="password"required autocomplete="off"/>
+                              </div>
+                            <div>
+                              <p class="forgot"><a href="#">Forgot Password?</a></p>
+                              </form>
+                            </div>
+                        </p>    
+                    </div>
                     <a href="#" rel="modal: close">close</a> <!--abs positioned -->
-                </div>
-            </div>
+                </div> <!-- closes modal -->
+                </div> <!-- closes overlay -->
+<!--         </div> -->
+        </div> <!-- closes row -->
 
-            <div class="col-sm-6 col-md-6 col-lg-6">
-                <button>Register</button>
-                <!-- insert modal window -->
-            </div>
+<br>
+<br>
+
+
+    <div class="row" id="homepage_buttons">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button class="button button-block">Log In</button>
+            
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button class="button button-block">Register</button>
+            <!-- insert modal window -->
         </div>
     </div>
+    </div> <!-- closes main div -->
+</body>
 
 <script type="text/javascript">
 var modal = function() {
@@ -62,8 +99,8 @@ method.open = function(settings) {
     $content.empty().append(settings.content);
 
     $modal.css({
-        width: settings.width || 'auto',
-        height: settings.height || 'auto'
+        width: settings.width || '10px',
+        height: settings.height || '10px'
     })
 
     method.center();
@@ -89,7 +126,12 @@ $close.click(function(e){
 });
 
 return method;
-}());
+
+//When Login is clicked - modal should be opened
+$("#login").on("click", function(){
+    open.modal
+});
+};
 
 </script>
 </body>

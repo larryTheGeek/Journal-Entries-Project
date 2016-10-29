@@ -1,16 +1,7 @@
-.important { 
-    color: #336699; 
-    }
 
-#overlay {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #000;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
+#homepage_buttons {
+    text-align: center;
+    animation: pulse 5s infinite;
 }
 
 #modal {
@@ -19,6 +10,7 @@
   background:rgba(0,0,0,0.2);
   border-radius:14px;
   padding:8px;
+  text-align: center;
 }
 
 #content {
@@ -36,4 +28,11 @@
   text-indent:-9999px;
   top:-7px;
   right:-7px;
+}
+
+#login {
+    padding-top: 700px;
+    padding-right: 70px;
+    padding-bottom: 700px;
+    text-indent: 70px;
 }
