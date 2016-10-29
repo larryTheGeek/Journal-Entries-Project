@@ -17,11 +17,28 @@ def homepage():
 
     return render_template("homepage.html")
 
-def login():
-    """Login the user"""
-
+@app.route('/register', methods=['POST'])
 def register():
     """Register the user"""
+    username = request.form["username"]
+    email = request.form["email"]
+    password = request.form["password"]
+
+    #add the new user to the model
+    new_user = User(username=username, password=password, email=email)
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    flash("You have just registered! Thank you!")
+    return redirect('/')
+
+@app.route('/login', methods=['POST'])
+def login():
+    """Login the user"""
+    #this function handles the form info from the homepage modal window 
+    email = request.form("email")
+    password = request.form["password"]
 
 def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""
