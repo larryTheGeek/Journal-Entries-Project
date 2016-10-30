@@ -20,6 +20,7 @@ def homepage():
         r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
         quote = r.json()["quoteText"]
         print "\n\n this is the quote", quote
+        type(quote)
         quote_author = r.json()["quoteAuthor"]
         print "\n\n  this is the author", quote_author
     except:
