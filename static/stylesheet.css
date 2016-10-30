@@ -1,3 +1,6 @@
+#quote {
+    text-align: center;
+}
 
 #homepage_buttons {
     text-align: center;
@@ -39,4 +42,16 @@
     padding-right: 70px;
     padding-bottom: 0px;
     text-align: center;
+}
+
+#pulse {
+  margin:100px;
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #cca92c;
+  cursor: pointer;
+  box-shadow: 0 0 0 rgba(204,169,44, 0.4);
+  animation: pulse 2s infinite;
 }

@@ -6,6 +6,7 @@ from datetime import datetime
 from model import User, Entry, Tag, EntryTag
 import json
 import pdb
+# from forismatic import Forismatic #quote generator 
 
 app = Flask(__name__)
 
@@ -15,7 +16,15 @@ app.secret_key = "Shhhhh"
 def homepage():
     """Display the homepage to the user"""
 
-    return render_template("homepage.html")
+    r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
+    quote = r.json()["quoteText"]
+    print "\n\n\n\n\n this is the quote", quote
+    quote_author = r.json()["quoteAuthor"]
+    print "\n\n\n\n this is the author", quote_author
+
+    return render_template("homepage.html", 
+                            quote=quote, 
+                            quote_author=quote_author)
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -62,6 +71,8 @@ def add_entry_to_db():
 
     db.session.add(entry_id)
     db.session.commit()
+
+    
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
