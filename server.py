@@ -16,11 +16,16 @@ app.secret_key = "Shhhhh"
 def homepage():
     """Display the homepage to the user"""
 
-    r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
-    quote = r.json()["quoteText"]
-    print "\n\n\n\n\n this is the quote", quote
-    quote_author = r.json()["quoteAuthor"]
-    print "\n\n\n\n this is the author", quote_author
+    try:
+        r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
+        quote = r.json()["quoteText"]
+        print "\n\n this is the quote", quote
+        quote_author = r.json()["quoteAuthor"]
+        print "\n\n  this is the author", quote_author
+    except:
+        quote = "Through perseverance many people win success out of what seemed destined to be certain failure."
+        quote_author = "Benjamin Disraeli"
+
 
     return render_template("homepage.html", 
                             quote=quote, 
