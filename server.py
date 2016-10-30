@@ -20,12 +20,12 @@ def homepage():
         r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
         quote = r.json()["quoteText"]
         print "\n\n this is the quote", quote
-        type(quote)
+
         quote_author = r.json()["quoteAuthor"]
         print "\n\n  this is the author", quote_author
     except:
-        quote = "Through perseverance many people win success out of what seemed destined to be certain failure."
-        quote_author = "Benjamin Disraeli"
+        quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
+        quote_author = unicode("Benjamin Disraeli", "utf-8")
 
 
     return render_template("homepage.html", 
