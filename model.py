@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class User(db.Model): #one to many relationship
     """User class - a user has many entries"""
 
     __tablename__ = "users"
@@ -10,7 +10,7 @@ class User(db.Model):
     # Users log into the app through a username and password. The can provide an
     # email to request their password if it's forgotten 
 
-    user_id = db.Column(db.String(100), nullable=False, primary_key=True)    
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)    
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False) #does this need to be hashed? <input type = password>
     email = db.Column(db.String(100), nullable=True) # <input type = email>
@@ -27,7 +27,7 @@ class User(db.Model):
 
         return User.query.filter_by(username=username).count()
 
-class Entry(db.Model):
+class Entry(db.Model): #many to one
     """A user can have multiple entries"""
 
     __tablename__ = "entries"
@@ -35,7 +35,7 @@ class Entry(db.Model):
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entry_date = db.Column(db.Date, nullable=False) #this can be queried later 
     entry_body = db.Column(db.String(1000), nullable=False)
-    username = db.Column(db.String(100), db.ForeignKey('users.username'), nullable=False)
+    username = db.Column(db.ForeignKey('users.user_id'), nullable=False)
     tag = db.Column(db.String(25), default='contemplative') # reference in JSON html max = 5
     # a one to many relationship places the fk on the child table referencing the parent
 
@@ -48,7 +48,7 @@ class Entry(db.Model):
         return "<Entry id is <%s> with Datetime <%s> for username <%s>\
         " % (self.entry_id, self.entry_date, self.username)
 
-class Tag(db.Model):
+class Tag(db.Model): #one to many
     """Journal entries can have multiple tags"""
 
     __tablename__ = "tags"
