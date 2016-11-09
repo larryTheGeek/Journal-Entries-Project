@@ -33,7 +33,7 @@ class Entry(db.Model): #many to one
     __tablename__ = "entries"
 
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    entry_date = db.Column(db.Date, nullable=False) #this can be queried later 
+    entry_date = db.Column(db.Datetime, nullable=False) #this can be queried later 
     entry_body = db.Column(db.String(1000), nullable=False)
     username = db.Column(db.ForeignKey('users.user_id'), nullable=False)
     tag = db.Column(db.String(25), default='contemplative') # reference in JSON html max = 5

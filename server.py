@@ -6,9 +6,12 @@ from datetime import datetime
 from model import User, Entry, Tag, EntryTag
 import json
 import pdb
+from flask_login import login_required, current_user
 # from forismatic import Forismatic #quote generator 
 
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manger.init_app(app)
 
 app.secret_key = "Shhhhh"
 
@@ -70,6 +73,7 @@ def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""
 
 @app.route('/new_entry')
+@login_required
 def add_entry_to_db():
     entry_body = request.form["entry"]
     # add the entry to the model
