@@ -10,8 +10,6 @@ from flask_login import login_required, current_user
 # from forismatic import Forismatic #quote generator 
 
 app = Flask(__name__)
-login_manager = LoginManager()
-login_manger.init_app(app)
 
 app.secret_key = "Shhhhh"
 
@@ -52,19 +50,23 @@ def register():
     return redirect('/')
 
 @app.route('/login', methods=['POST'])
-def login():
+def login_form():
     """Login the user"""
     #this function handles the form info from the homepage modal window 
     email = request.form("username")
-    password = request.form["password"]
+    password = bcrypt.generate_password_hash(request.form("password"))
 
+    # does the user exist
     user = User.query.filter_by(username=username).first()
 
     if not user: 
         flash("Username not found")
         return redirect('/login')
 
+    flash("Hello again!")    
     session["user_id"] = user.user_id
+    session["username"] = user.username
+    session["password"] = user.password
 
     flash("You are logged in!")
     return render_template("entry.html")
@@ -81,6 +83,15 @@ def add_entry_to_db():
 
     db.session.add(entry_id)
     db.session.commit()
+
+@app.route('/logout')
+def logout_form():
+    """Process logout form"""
+
+    #Remove user from session
+    session.clear()
+    flash("Logged out")
+    return render_template("/")
 
     
 
