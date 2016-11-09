@@ -7,6 +7,7 @@ from model import User, Entry, Tag, EntryTag
 import json
 import pdb
 from flask_login import login_required, current_user
+from flask_bcrypt import Bcrypt
 # from forismatic import Forismatic #quote generator 
 
 app = Flask(__name__)
