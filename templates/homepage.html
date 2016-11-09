@@ -69,13 +69,27 @@
 </body>
 
 <script type="text/javascript">
+// When the page loads, the modal window is hidden
+$('#modal').hide();
 
-
-// When Login is clicked - modal should be opened
+// When login is clicked - modal should be opened
 $("#login_btn").on("click", function() {
     $("#modal").toggle();
+    //User cannot see the login and register buttons
+    $("#login_btn").toggle();
+    $("#register_btn").toggle();
 }
 );
+
+//When the user clicks outside the modal window show the login and register buttons
+$('#close, #overlay').click(function(e) {
+      e.preventDefault();
+      $('#overlay, #alertModalOuter').fadeOut(400, function() {
+      $('#close').hide();
+      $("#login_btn").show();
+      $("#register_btn").show();
+    });
+});
 
 // $("#submit-login").submit("click", function() {
 //     var username = $().val();
@@ -102,13 +116,9 @@ $("#login_btn").on("click", function() {
 //                 console.log(error);
 // })
 
-// When the user clicks the close link the modal window hides
-$("#close-modal").on("click", function() {
-    $("#modal").toggle();
-}
-);
-// When the page loads, the modal window is hidden
-$('#modal').hide();
+// 
+
+
 
 </script>
 </body>
