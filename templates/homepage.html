@@ -19,7 +19,7 @@
                 <div class="col-xs-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3" id="modal">
                     <div id='content'> 
                         <p>
-                            <a href="close" rel="modal:close" id="close-modal ">Close</a>
+                            <a href id="close-modal">Close</a>
                             <div id="login">   
                               <h1>Welcome Back!</h1>
                               
@@ -40,11 +40,57 @@
                               </div>
                                 <div>
                                 <p class="forgot"><a href="#">Forgot Password?</a></p>
-                              </form>
+                              
                               </div>
                         </p>    
                     </div>
                     <button class="btn btn-outline-info" id="submit-login">Submit</button> <!--abs positioned -->
+                    </form>
+                </div> <!-- closes modal -->
+                </div> <!-- closes overlay -->
+        <!-- </div> -->
+
+<!--Modal window for Registering -->
+        </div> <!-- closes row -->
+
+                <div class="row">
+            <div>
+        <!-- insert modal window -->
+                <div id='overlay_r'> <!--overlay semi-transparent layer that fills the visitor's viewport-->
+                    <!--bootstrap to center the modal window!-->
+                <div class="col-xs-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3" id="modal_r">
+                    <div id='content_r'> 
+                        <p>
+                            <a href id="close-modal_r">Close</a>
+                            <div id="register">   
+                              <h2>Welcome Aboard</h2>
+                              
+                              <form action="/register" method="post">
+                              
+                                <div class="field-wrap">
+                                <label id="email">
+                                  Email <span class="req">*</span>
+                                </label>
+                                <input type="email"/> 
+                                <br>
+                                <br>
+                                <label id="username">
+                                  Username <span class="req">*</span>
+                                </label>
+                                <input type="email"required autocomplete="off"/>
+                              </div>
+                              <br>
+                              <div class="field-wrap">
+                                <label id="password">
+                                  Password<span class="req">*</span>
+                                </label>
+                                <input type="password"required autocomplete="off"/>
+                              </div>
+                              </div>
+                        </p>    
+                    </div>
+                    <button class="btn btn-outline-info" id="submit-register">Submit</button> 
+                    </form>
                 </div> <!-- closes modal -->
                 </div> <!-- closes overlay -->
 <!--         </div> -->
@@ -71,6 +117,7 @@
 <script type="text/javascript">
 // When the page loads, the modal window is hidden
 $('#modal').hide();
+$('#modal_r').hide();
 
 // When login is clicked - modal should be opened
 $("#login_btn").on("click", function() {
@@ -82,13 +129,10 @@ $("#login_btn").on("click", function() {
 );
 
 //When the user clicks outside the modal window show the login and register buttons
-$('#close, #overlay').click(function(e) {
-      e.preventDefault();
-      $('#overlay, #alertModalOuter').fadeOut(400, function() {
-      $('#close').hide();
-      $("#login_btn").show();
-      $("#register_btn").show();
-    });
+$('#close-modal' || '#overlay').on("click", function() {
+    $('#modal').hide();
+    $('#login_btn').show();
+    $('#register_btn').show();
 });
 
 // $("#submit-login").submit("click", function() {
