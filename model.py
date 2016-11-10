@@ -36,8 +36,8 @@ class Entry(db.Model): #many to one
     entry_date = db.Column(db.DateTime, nullable=False) #this can be queried later 
     entry_body = db.Column(db.String(1000), nullable=False)
     username = db.Column(db.ForeignKey('users.user_id'), nullable=False)
-    tag = db.Column(db.String(25), default='contemplative') # reference in JSON html max = 5
-    # a one to many relationship places the fk on the child table referencing the parent
+    # tag = db.Column(db.String(25), default='contemplative', nullable=False) # reference in JSON html max = 5
+    # # a one to many relationship places the fk on the child table referencing the parent
 
     user = db.relationship('User', backref='users') 
     tag = db.relationship('Tag', backref='tags')
