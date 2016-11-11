@@ -46,7 +46,7 @@ class Tag(db.Model): #one to many
         """Get all the entries matching that tag"""
 
         return cls.query.filter_by(tag=tag).all()
-        
+
 class Entry(db.Model): #many to one
     """A user can have multiple entries"""
 
@@ -78,6 +78,9 @@ class EntryTag(db.Model):
     entrytag_id = db.Column(db.Integer, primary_key=True)
     entry_id = db.Column(db.Integer, db.ForeignKey('entries.entry_id'), nullable=False)
     tag = db.Column(db.String(50), db.ForeignKey('tags.tag'), nullable=False)
+
+    entry = db.relationship('Entry', backref='entries')
+    tag = db.relationship('Tag', backref='tags')
 
 def connect_to_db(app, db_uri="postgresql:///entry"):
     """Connects to the database"""
