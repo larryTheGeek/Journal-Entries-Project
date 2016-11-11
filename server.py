@@ -7,7 +7,7 @@ from model import User, Entry, Tag, EntryTag
 import json
 import pdb
 from flask_login import login_required, current_user
-from flask_bcrypt import Bcrypt
+# from flask_bcrypt import bcrypt
 
 app = Flask(__name__)
 
@@ -53,8 +53,9 @@ def register():
 def login_form():
     """Login the user"""
     #this function handles the form info from the homepage modal window 
-    email = request.form("username")
-    password = bcrypt.generate_password_hash(request.form("password"))
+    email = request.form.get("username")
+    password = request.form.get("password")
+    # password = bcrypt.generate_password_hash(request.form.get("password"))
 
     # does the user exist
     user = User.query.filter_by(username=username).first()

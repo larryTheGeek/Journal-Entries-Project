@@ -27,6 +27,26 @@ class User(db.Model): #one to many relationship
 
         return User.query.filter_by(username=username).count()
 
+class Tag(db.Model): #one to many
+    """Journal entries can have multiple tags"""
+
+    __tablename__ = "tags"
+
+    tag = db.Column(db.String(25), default='contemplative', primary_key=True)
+    # Structuring this correctly? The entry can have up to five tags 
+    tag_2 = db.Column(db.String(25), nullable=True)
+    tag_3 = db.Column(db.String(25), nullable=True)
+    tag_4 = db.Column(db.String(25), nullable=True)
+    tag_5 = db.Column(db.String(25), nullable=True)
+    tag_6 = db.Column(db.String(25), nullable=True)
+
+    
+    @classmethod
+    def get_by_tag_type(cls, tag):
+        """Get all the entries matching that tag"""
+
+        return cls.query.filter_by(tag=tag).all()
+        
 class Entry(db.Model): #many to one
     """A user can have multiple entries"""
 
@@ -48,25 +68,7 @@ class Entry(db.Model): #many to one
         return "<Entry id is <%s> with Datetime <%s> for username <%s>\
         " % (self.entry_id, self.entry_date, self.username)
 
-class Tag(db.Model): #one to many
-    """Journal entries can have multiple tags"""
 
-    __tablename__ = "tags"
-
-    tag = db.Column(db.String(25), default='contemplative', primary_key=True)
-    # Structuring this correctly? The entry can have up to five tags 
-    tag_2 = db.Column(db.String(25), nullable=True)
-    tag_3 = db.Column(db.String(25), nullable=True)
-    tag_4 = db.Column(db.String(25), nullable=True)
-    tag_5 = db.Column(db.String(25), nullable=True)
-    tag_6 = db.Column(db.String(25), nullable=True)
-
-    
-    @classmethod
-    def get_by_tag_type(cls, tag):
-        """Get all the entries matching that tag"""
-
-        return cls.query.filter_by(tag=tag).all()
 
 class EntryTag(db.Model):
     """Association table for the many to many relationship between entries and tags"""
@@ -82,7 +84,7 @@ def connect_to_db(app, db_uri="postgresql:///entry"):
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-    
+
     db.app = app
     db.init_app(app)
 
