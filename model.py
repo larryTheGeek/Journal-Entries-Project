@@ -14,7 +14,8 @@ class User(db.Model): #one to many relationship
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False) #does this need to be hashed? <input type = password>
     email = db.Column(db.String(100), nullable=True) # <input type = email>
-
+    entries = db.relationship('Entry', backref='users', lazy='dynamic') #lazy means you can find out how many entries per user
+    
     def __repr__(self):
         """Human readable when printed"""
 
@@ -55,12 +56,8 @@ class Entry(db.Model): #many to one
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entry_date = db.Column(db.DateTime, nullable=False) #this can be queried later 
     entry_body = db.Column(db.String(1000), nullable=False)
-    username = db.Column(db.ForeignKey('users.user_id'), nullable=False)
-    tag = db.Column(db.ForeignKey('tags.tag'), nullable=False) 
-    # a one to many relationship places the fk on the child table referencing the parent
-
-    user = db.relationship('User', backref='users') 
-    tag = db.relationship('Tag', backref='tags')
+    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
+    tag = db.relationship('Tag', backref='tags', lazy='dynamic') 
 
     def __repr__(self):
         """Human readable when printed"""
