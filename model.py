@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model): #one to many relationship
+class User(db.Model): #one to many relationship between User - Entry
     """User class - a user has many entries"""
 
     __tablename__ = "users"
@@ -14,6 +14,7 @@ class User(db.Model): #one to many relationship
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False) #does this need to be hashed? <input type = password>
     email = db.Column(db.String(100), nullable=True) # <input type = email>
+    
     entries = db.relationship('Entry', backref='users', lazy='dynamic') #lazy means you can find out how many entries per user
     
     def __repr__(self):
@@ -28,12 +29,30 @@ class User(db.Model): #one to many relationship
 
         return User.query.filter_by(username=username).count()
 
-class Tag(db.Model): #one to many
+class Entry(db.Model): #many to many relationship with tags, many to one with Users
+    """A user can have multiple entries"""
+
+    __tablename__ = "entries"
+
+    entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    entry_date = db.Column(db.DateTime, nullable=False) #this can be queried later 
+    entry_body = db.Column(db.String(1000), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+     
+    user = db.relationship('User', backref='users', lazy='dynamic')
+    
+    def __repr__(self):
+        """Human readable when printed"""
+
+        return "<Entry id is <%s> with Datetime <%s> for username <%s>\
+        " % (self.entry_id, self.entry_date, self.username)
+
+class Tag(db.Model): #many to many relationship between Tags and Entries 
     """Journal entries can have multiple tags"""
 
     __tablename__ = "tags"
 
-    tag = db.Column(db.String(25), default='contemplative', primary_key=True)
+    tag_1 = db.Column(db.String(25), default='contemplative', primary_key=True)
     # Structuring this correctly? The entry can have up to five tags 
     tag_2 = db.Column(db.String(25), nullable=True)
     tag_3 = db.Column(db.String(25), nullable=True)
@@ -48,25 +67,8 @@ class Tag(db.Model): #one to many
 
         return cls.query.filter_by(tag=tag).all()
 
-class Entry(db.Model): #many to one
-    """A user can have multiple entries"""
 
-    __tablename__ = "entries"
-
-    entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    entry_date = db.Column(db.DateTime, nullable=False) #this can be queried later 
-    entry_body = db.Column(db.String(1000), nullable=False)
-    user_id = db.Column(db.ForeignKey('users.user_id'), nullable=False)
-    tag = db.relationship('Tag', backref='tags', lazy='dynamic') 
-
-    def __repr__(self):
-        """Human readable when printed"""
-
-        return "<Entry id is <%s> with Datetime <%s> for username <%s>\
-        " % (self.entry_id, self.entry_date, self.username)
-
-
-
+#Association Table 
 class EntryTag(db.Model):
     """Association table for the many to many relationship between entries and tags"""
 
@@ -74,10 +76,10 @@ class EntryTag(db.Model):
 
     entrytag_id = db.Column(db.Integer, primary_key=True)
     entry_id = db.Column(db.Integer, db.ForeignKey('entries.entry_id'), nullable=False)
-    tag = db.Column(db.String(50), db.ForeignKey('tags.tag'), nullable=False)
+    tag_1 = db.Column(db.String(50), db.ForeignKey('tags.tag_1'), nullable=False)
 
-    entry = db.relationship('Entry', backref='entries')
-    tag = db.relationship('Tag', backref='tags')
+    entry = db.relationship('Entry', backref='entries', lazy='dynamic')
+    tag = db.relationship('Tag', backref='tags', lazy='dynamic')
 
 def connect_to_db(app, db_uri="postgresql:///entry"):
     """Connects to the database"""
