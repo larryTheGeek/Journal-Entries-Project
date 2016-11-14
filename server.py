@@ -1,5 +1,5 @@
 import os 
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, abort
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
 from datetime import datetime
@@ -28,10 +28,14 @@ def homepage():
         quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
         quote_author = unicode("Benjamin Disraeli", "utf-8")
 
-
-    return render_template("homepage.html", 
-                            quote=quote, 
-                            quote_author=quote_author)
+    if not session.get('logged_in'):
+        return render_template("homepage.html", 
+                                quote=quote, 
+                                quote_author=quote_author)
+    else: 
+        return render_template("entry.html", 
+                                quote=quote,
+                                quote_author=quote_author)
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -54,26 +58,18 @@ def handle_login():
     """Login the user. Store user in session cookie"""
     #this function handles the form info from the homepage modal window 
     username = request.form["username"]
-    print "\n\n\n", username
+    print "\n\n\n username ", username
     password = request.form["password"]
-    print "\n\n\n\n", password
+    print "\n\n\n\n password ", password
     # password = bcrypt.generate_password_hash(request.form.get("password"))
 
-    # does the user exist
-    user = User.query.filter_by(username=username).first()
-    print "\n\n\n\n", user
+    if request.form['password'] == password and request.form['username'] == username:
+        session['logged_in'] = True
 
-    if not user: 
+    else:
         flash("Incorrect login")
         return redirect('/login')
 
-    flash("Hello again!")    
-    session["user_id"] = user.user_id
-    print "\n\n\n", user.user_id
-    session["username"] = user.username
-    print "\n\n\n", user.username
-    session["password"] = user.password
-    print "\n\n\n", user.password
 
     flash("You are logged in!")
     return render_template("entry.html")

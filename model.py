@@ -85,7 +85,7 @@ def connect_to_db(app, db_uri="postgresql:///entry"):
     """Connects to the database"""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
 
     db.app = app
     db.init_app(app)
