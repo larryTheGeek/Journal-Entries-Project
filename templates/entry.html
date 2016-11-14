@@ -17,11 +17,23 @@
                 <input type="textbox" id="subject"> <br>
                 <br>
 
-                Tag <input type= "textbox" id="tag_1">
-                <div class="input_fields_wrap">
-                <button class="add_field_button">Add More Fields</button>
-                <div><input type="text" name="mytext[]"></div>
-                </div> 
+                Tag 
+                <div class="container">
+                    <div class="row">
+                        <input type="hidden" name="count" value="1" />
+                            <div class="control-group" id="fields">
+                                <!-- <label class="control-label" for="field1">Nice Multiple Form Fields</label> -->
+                                <div class="controls" id="profs"> 
+                                    <form class="input-append">
+                                        <div id="field">
+                                            <input autocomplete="off" class="input" id="field1" name="prof1" type="text" placeholder="How are you feeling?" data-items="8"/>
+                                            <button id="b1" class="btn add-more" type="button">+</button></div>
+                                    </form>
+                                <small>Press + to add another tag</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                 <br>
                 <br>
@@ -42,33 +54,27 @@
 {% endblock %}
 // <script type="text/javascript">
 
-$(document).ready(function() {
-    var max_fields      = 10; //maximum input boxes allowed
-    var wrapper         = $("#TxtBoxContainer"); //Fields wrapper
-    var add_button      = $("#AddMore"); //Add button ID
-    
-    var x = 0; //initlal text box count
-    $(add_button).click(function(e){ //on add input button click
-        e.preventDefault();
-         if(x < max_fields){  //max input box allowed
-            $(wrapper).append("+"+ // onkeyup="onInputKeyUp(event)"
-            '<a href="#" rel="nofollow">&nbsp;&nbsp;x</a>'); //add input box
-            x++; //text box increment
-        }
+$(".add-more").on("click", function() { var next = 1; $(".add-more").click(function(e) { e.preventDefault(); var addto = "#field" + next; var addRemove = "#field" + (next);
+        next = next + 1;
+        var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+        var newInput = $(newIn);
+        var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+        var removeButton = $(removeBtn);
+        $(addto).after(newInput);
+        $(addRemove).after(removeButton);
+        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+        $("#count").val(next);  
+        
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
     });
     
-    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-        e.preventDefault(); $(this).parent('div').remove(); x--;
-    });
+
+    
 });
-// //When the user hits save and exit put the entry in the model
-
-// function saveEntry(evt) {
-//     $.post("/new_entry",
-//       data: ("#entry"),
-//       function()
-//     });
-// }
-
-// $("#entry-save")submit(click, saveEntry);
 // </script>
