@@ -20,10 +20,10 @@ def homepage():
     try:
         r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
         quote = r.json()["quoteText"]
-        print "\n\n this is the quote", quote
+        print "\n\n this is the quote: ", quote
 
         quote_author = r.json()["quoteAuthor"]
-        print "\n\n  this is the author", quote_author
+        print "\n\n  this is the author: ", quote_author
     except:
         quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
         quote_author = unicode("Benjamin Disraeli", "utf-8")
@@ -50,27 +50,34 @@ def register():
     return redirect('/')
 
 @app.route('/login', methods=['POST'])
-def login_form():
-    """Login the user"""
+def handle_login():
+    """Login the user. Store user in session cookie"""
     #this function handles the form info from the homepage modal window 
-    email = request.form.get("username")
-    password = request.form.get("password")
+    username = request.form["username"]
+    print "\n\n\n", username
+    password = request.form["password"]
+    print "\n\n\n\n", password
     # password = bcrypt.generate_password_hash(request.form.get("password"))
 
     # does the user exist
     user = User.query.filter_by(username=username).first()
+    print "\n\n\n\n", user
 
     if not user: 
-        flash("Username not found")
+        flash("Incorrect login")
         return redirect('/login')
 
     flash("Hello again!")    
     session["user_id"] = user.user_id
+    print "\n\n\n", user.user_id
     session["username"] = user.username
+    print "\n\n\n", user.username
     session["password"] = user.password
+    print "\n\n\n", user.password
 
     flash("You are logged in!")
     return render_template("entry.html")
+
 
 def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""

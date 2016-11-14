@@ -39,7 +39,7 @@ class Entry(db.Model): #many to many relationship with tags, many to one with Us
     entry_body = db.Column(db.String(1000), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
      
-    user = db.relationship('User', backref='users', lazy='dynamic')
+    user = db.relationship('User', backref='users')
     
     def __repr__(self):
         """Human readable when printed"""
@@ -78,14 +78,14 @@ class EntryTag(db.Model):
     entry_id = db.Column(db.Integer, db.ForeignKey('entries.entry_id'), nullable=False)
     tag_1 = db.Column(db.String(50), db.ForeignKey('tags.tag_1'), nullable=False)
 
-    entry = db.relationship('Entry', backref='entries', lazy='dynamic')
-    tag = db.relationship('Tag', backref='tags', lazy='dynamic')
+    entry = db.relationship('Entry', backref='entries')
+    tag = db.relationship('Tag', backref='tags')
 
 def connect_to_db(app, db_uri="postgresql:///entry"):
     """Connects to the database"""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.app = app
     db.init_app(app)
