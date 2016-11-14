@@ -8,22 +8,59 @@
 
 <body>
     <div class="dynamic-container">
-        Journal Entry Title
-        <input type="textbox" id="subject"> <br>
-        Tag <select id="tag">
-            <option value="happy">Happy</option>
-            <option value="sad">Sad</option>
-            <option value="angry">Angry</option>
-        </select> <br>  
-        Journal Body<br>
-        <textarea id="entry" rows="50" cols="150">
-        </textarea><br>
-        <button id="entry-save" class="entry">Save</button> <button id="entry-save-and-quit" class="entry">Save and Exit</button><br><br>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1">
+                <br>
+                <br>
+                <br>
+                Journal Entry Title
+                <input type="textbox" id="subject"> <br>
+                <br>
+
+                Tag <input type= "textbox" id="tag_1">
+                <div class="input_fields_wrap">
+                <button class="add_field_button">Add More Fields</button>
+                <div><input type="text" name="mytext[]"></div>
+                </div> 
+
+                <br>
+                <br>
+
+                Journal Body<br>
+                <br>
+                <textarea id="entry" rows="20" cols="150">
+                </textarea><br>
+                <br>
+
+                <div id="submission-btn">
+                    <button id="entry-save" class="entry">Save</button> <button id="entry-save-and-quit" class="entry">Save and Exit</button><br><br>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="panel-footer">Footer</div>
 </body>
 {% endblock %}
 // <script type="text/javascript">
+
+$(document).ready(function() {
+    var max_fields      = 10; //maximum input boxes allowed
+    var wrapper         = $("#TxtBoxContainer"); //Fields wrapper
+    var add_button      = $("#AddMore"); //Add button ID
+    
+    var x = 0; //initlal text box count
+    $(add_button).click(function(e){ //on add input button click
+        e.preventDefault();
+         if(x < max_fields){  //max input box allowed
+            $(wrapper).append("+"+ // onkeyup="onInputKeyUp(event)"
+            '<a href="#" rel="nofollow">&nbsp;&nbsp;x</a>'); //add input box
+            x++; //text box increment
+        }
+    });
+    
+    $(wrapper).on("click",".remove_field", function(e){ //user click on remove text
+        e.preventDefault(); $(this).parent('div').remove(); x--;
+    });
+});
 // //When the user hits save and exit put the entry in the model
 
 // function saveEntry(evt) {

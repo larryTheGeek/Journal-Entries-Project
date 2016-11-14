@@ -13,10 +13,8 @@ app = Flask(__name__)
 
 app.secret_key = "Shhhhh"
 
-@app.route('/')
-def homepage():
-    """Display the homepage to the user"""
-
+def get_quotes_for_footer():
+    """Call this function in other routes to display fancy quote footer"""
     try:
         r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
         quote = r.json()["quoteText"]
@@ -27,6 +25,14 @@ def homepage():
     except:
         quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
         quote_author = unicode("Benjamin Disraeli", "utf-8")
+
+    return quote, quote_author
+
+@app.route('/')
+def homepage():
+    """Display the homepage to the user"""
+
+    quote, quote_author = get_quotes_for_footer()
 
     if not session.get('logged_in'):
         return render_template("homepage.html", 
@@ -72,7 +78,12 @@ def handle_login():
 
 
     flash("You are logged in!")
-    return render_template("entry.html")
+
+    get_quotes_for_footer()
+
+    return render_template("entry.html",
+                            quote=quote,
+                            quote_author=quote_author)
 
 
 def view_entries_by_tag():
