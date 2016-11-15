@@ -70,7 +70,7 @@ def handle_login():
                             quote=quote,
                             quote_author=quote_author)
 
-@app.route('/new_entry')
+@app.route('/entry')
 @login_required
 def add_entry_to_db():
     entry_body = request.form["entry"]
