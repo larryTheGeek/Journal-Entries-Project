@@ -13,21 +13,6 @@ app = Flask(__name__)
 
 app.secret_key = "Shhhhh"
 
-def get_quotes_for_footer():
-    """Call this function in other routes to display fancy quote footer"""
-    try:
-        r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
-        quote = r.json()["quoteText"]
-        print "\n\n this is the quote: ", quote
-
-        quote_author = r.json()["quoteAuthor"]
-        print "\n\n  this is the author: ", quote_author
-    except:
-        quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
-        quote_author = unicode("Benjamin Disraeli", "utf-8")
-
-    return quote, quote_author
-
 @app.route('/')
 def homepage():
     """Display the homepage to the user"""
@@ -59,7 +44,7 @@ def register():
     flash("You have just registered! Login to start writing entries. Thank you!")
     return redirect('/')
 
-@app.route('/login', methods=['POST'])
+@app.route('/new_entry', methods=['POST'])
 def handle_login():
     """Login the user. Store user in session cookie"""
     #this function handles the form info from the homepage modal window 
@@ -79,15 +64,11 @@ def handle_login():
 
     flash("You are logged in!")
 
-    get_quotes_for_footer()
+    quote, quote_author = get_quotes_for_footer() 
 
     return render_template("entry.html",
                             quote=quote,
                             quote_author=quote_author)
-
-
-def view_entries_by_tag():
-    """Create a function that sorts the entries by user's input tag"""
 
 @app.route('/new_entry')
 @login_required
@@ -108,7 +89,25 @@ def logout_form():
     flash("Logged out")
     return render_template("/")
 
-    
+########################### Helper Functions ###################################
+
+def get_quotes_for_footer():
+    """Call this function in other routes to display fancy quote footer"""
+    try:
+        r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
+        quote = r.json()["quoteText"]
+        print "\n\n this is the quote: ", quote
+
+        quote_author = r.json()["quoteAuthor"]
+        print "\n\n  this is the author: ", quote_author
+    except:
+        quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
+        quote_author = unicode("Benjamin Disraeli", "utf-8")
+
+    return quote, quote_author    
+
+def view_entries_by_tag():
+    """Create a function that sorts the entries by user's input tag"""
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
