@@ -12,7 +12,7 @@
     <!-- <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch" rel="stylesheet"> -->
     <link rel="stylesheet" href="static/style.css">
 
-<nav class="navbar navbar-light bg-faded">
+<nav class="navbar navbar-default navbar-fixed-top">
   <span class="navbar-brand glyphicon glyphicon-edit">   Journal Entries</span>
   <ul class="nav navbar-nav">
     <li class="nav-item">
@@ -32,25 +32,7 @@
       </div>
     </li>
   </ul>
-
 </nav>
-
-<!-- navbar at the head -->
-<!-- <nav class="navbar navbar-light bg-faded"> <span class="glyphicon glyphicon-edit">Journal Entries </span>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar" aria-controls="exCollapsingNavbar" aria-expanded="false" aria-label="Toggle navigation"></button>
-  <div class="collapse" id="exCollapsingNavbar">
-    <div class="bg-inverse text-muted p-1">
-      <h4>Collapsed content</h4>
-        <span class="text-muted">{% if not session.logged_in %}
-                <a href="{{ url_for('login') }}">Log in</a>
-                <a href="{{ url_for('register') }}">Register</a>
-            {% else %}
-                <a href="{{ url_for('logout_form') }}">Log out {{ username }}</a>
-            {% endif %}
-        </span>
-    </div>
-  </div>
-</nav> -->
 
 
 {% endblock %}
