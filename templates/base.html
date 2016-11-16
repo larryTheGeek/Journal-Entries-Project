@@ -17,10 +17,16 @@
     <div class="container">
         <!-- This can get whonky with CSS styling -->
         <p class="navbar-text navbar-fixed-top">
-            <span class="glyphicon glyphicon-edit" id="pulse">   Journal Entries</span>
+            <span class="glyphicon glyphicon-edit" id="pulse">   Journal Entries
+            
+            {% if not session.logged_in %}
+                <a href="{{ url_for('login') }}">Log in</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% else %}
+                <a href="{{ url_for('logout_form') }}">Log out {{ username }}</a>
+            {% endif %}
         </p>
-        <!-- Add logout button? -->
-        <p></p>
+        </span>
     </div>
 </nav>
 {% endblock %}
