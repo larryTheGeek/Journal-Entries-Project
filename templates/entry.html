@@ -19,7 +19,7 @@
                     {% if messages %}
                         <ul class=flashes>
                             {% for message in messages %}
-                                <ul id="flash">{{ message }}</ul>
+                                <ul id="flash">{{ message[1] }}</ul>
                             {% endfor %}
                         </ul>
                     {% endif %}
@@ -67,6 +67,7 @@
         </div>
     </div>
 </body>
+<br>
 <br>
 
 <script>
