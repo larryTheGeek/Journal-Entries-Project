@@ -10,9 +10,24 @@
 <body>
     <div class="dynamic-container">
         <div class="row">
+            <div class="container-fluid"> 
+            <br>
+            <br>
+            <br>
+            <br>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class=flashes>
+                            {% for message in messages %}
+                                <ul id="flash">{{ message }}</ul>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+            {% endwith %}
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-2 col-md-offset-1">
-                <br>
-                <br>
                 <br>
                 Journal Entry Title
                 <input type="textbox" id="subject"> <br>
@@ -46,7 +61,7 @@
                 <br>
 
                 <div id="submission-btn" class="text center">
-                    <button id="entry-save" class="entry">Save</button> <button id="entry-save-and-quit" class="entry">Save and Exit</button><br><br>
+                    <button id="entry-save" class="entry">Save</button> <button id="entry-save-and-quit" class="entry">Save and Exit</button><br><br><br>
                 </div>
             </div>
         </div>
