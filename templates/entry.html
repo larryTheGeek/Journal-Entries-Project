@@ -8,18 +8,20 @@
 
 
 <body>
+    <br>
+    <br>
+    <br>
     <div class="dynamic-container">
         <div class="row">
-            <div class="container-fluid"> 
-            <br>
+            <div class="container-fluid flashes"> 
             <br>
             <br>
             <br>
             {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
-                        <ul class=flashes>
+                        <ul>
                             {% for message in messages %}
-                                <ul id="flash">{{ message[1] }}</ul>
+                                <h4 class="flashes">{{ message[1] }}</h4>
                             {% endfor %}
                         </ul>
                     {% endif %}
@@ -71,6 +73,7 @@
 <br>
 
 <script>
+$(".flashes").fadeOut(2000);
 
 $(".add-more").on("click", function() { 
         var next = 1; 

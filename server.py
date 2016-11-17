@@ -56,13 +56,11 @@ def handle_login():
 
     if request.form['password'] == password and request.form['username'] == username:
         session['logged_in'] = True
+        flash("Hello again - You are logged in!")
 
     else:
         flash("Incorrect login")
         return redirect('/login')
-
-
-    flash("You are logged in!")
 
     quote, quote_author = get_quotes_for_footer() 
 
@@ -86,7 +84,7 @@ def logout_form():
 
     #Remove user from session
     session.clear()
-    flash("Logged out")
+
     return redirect("/")
 
 ########################### Helper Functions ###################################
