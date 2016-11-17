@@ -87,7 +87,7 @@ def logout_form():
     #Remove user from session
     session.clear()
     flash("Logged out")
-    return render_template("/")
+    return redirect("/")
 
 ########################### Helper Functions ###################################
 
