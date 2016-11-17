@@ -87,6 +87,12 @@ def logout_form():
 
     return redirect("/")
 
+@app.route('/recover')
+def recover_login_info():
+    """When the user hits forgot password in the login modal, send them an email with their username or password"""
+
+    redirect("/")
+
 ########################### Helper Functions ###################################
 
 def get_quotes_for_footer():
@@ -102,7 +108,8 @@ def get_quotes_for_footer():
         quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
         quote_author = unicode("Benjamin Disraeli", "utf-8")
 
-    return quote, quote_author    
+    return quote, quote_author 
+
 
 def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""
