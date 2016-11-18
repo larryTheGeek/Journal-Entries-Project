@@ -1,3 +1,14 @@
+# # http://flask.pocoo.org/docs/0.11/patterns/wtforms/
+# class RegistrationForm(Form):
+#     username = StringField('Username', [validators.Length(min=4, max=25)])
+#     email = StringField('Email Address', [validators.Lenght(min=6, max=35)])
+#     password = PasswordField('New Password', [
+#         validators.DataRequired(),
+#         validators.EqualTo('confirm', message='Passwords must match')
+#         ])
+#     confirm = PasswordField('Repeat Password')
+#     accept_tos = BooleanField('I accept the Terms of Service', [validators.DataRequired()])
+
 # https://navaspot.wordpress.com/2014/06/25/how-to-implement-forgot-password-feature-in-flask/
 
 class ExistingUser(object):
