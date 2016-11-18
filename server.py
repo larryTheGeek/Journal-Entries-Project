@@ -8,6 +8,7 @@ import json
 import pdb
 from flask_login import login_required, current_user
 # from flask_bcrypt import bcrypt
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 app = Flask(__name__)
 
@@ -87,11 +88,19 @@ def logout_form():
 
     return redirect("/")
 
-@app.route('/recover')
+@app.route('/recover', methods=('GET', 'POST', ))
 def recover_login_info():
     """When the user hits forgot password in the login modal, send them an email with their username or password"""
+    token = request.args.get('token', None)
+    form = ResetPassword(request.form)
+    if form.validate_on_submit():
+        email = form.email.data
+        user = User.query.filter_by(email=email).first()
+        if user:
+            token = user.get_token()
+            print token
+    redirect
 
-    redirect("/")
 
 ########################### Helper Functions ###################################
 
@@ -113,6 +122,8 @@ def get_quotes_for_footer():
 
 def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""
+
+
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
