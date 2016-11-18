@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model, UserMixin): #one to many relationship between User - Entry
+class User(db.Model): #one to many relationship between User - Entry
     """User class - a user has many entries"""
 
     __tablename__ = "users"
@@ -31,8 +31,8 @@ class User(db.Model, UserMixin): #one to many relationship between User - Entry
 
     def get_token(self, expiration=100):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
-            return s.dumps({'user': self.id}).decode('utf-8')
-        
+        return s.dumps({'user': self.id}).decode('utf-8')
+
     @staticmethod
     def verify_token(token):
         s = Serializer(current_app.config['SECRET_KEY'])

@@ -9,7 +9,7 @@ import pdb
 from flask_login import login_required, current_user
 # from flask_bcrypt import bcrypt
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from flask.ext.login import current_user,current_app
+# from flask.ext.login import current_user,current_app
 
 app = Flask(__name__)
 
@@ -102,17 +102,17 @@ def recover_login_info():
             print token
     return redirect("/")
 
-if token and verified_result:
-    is_verified_token = True
-    password_submit_form = ResetPasswordSubmit(request.form)
-    if password_submit_form.validate_on_submit():
-        verified_result.pasword = generate_password_hash(password_submit_form.password.data)
-        verified_result.is_active = True
-        db.session.add(verified_result)
-        db.session.commit()
+# if token and verified_result:
+#     is_verified_token = True
+#     password_submit_form = ResetPasswordSubmit(request.form)
+#     if password_submit_form.validate_on_submit():
+#         verified_result.pasword = generate_password_hash(password_submit_form.password.data)
+#         verified_result.is_active = True
+#         db.session.add(verified_result)
+#         db.session.commit()
 
-        flash("Password updated successfully!")
-        return redirect("/new_entry")
+#         flash("Password updated successfully!")
+#         return redirect("/new_entry")
 
 
 ########################### Helper Functions ###################################
