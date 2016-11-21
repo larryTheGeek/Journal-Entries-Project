@@ -46,9 +46,11 @@ def register():
     flash("You have just registered! Login to start writing entries. Thank you!")
     return redirect('/')
 
+
 @app.route('/new_entry', methods=['POST'])
 def handle_login():
-    """Login the user. Store user in session cookie"""
+    """Handles user login and displays new journal entry form."""
+
     #this function handles the form info from the homepage modal window
     username = request.form["username"]
     print "\n\n\n username ", username
@@ -75,18 +77,16 @@ def handle_login():
 def add_entry_to_db():
     """Save and redirect journal entries."""
 
-    print "I made it before the title!"
     title = request.form["title"]
-    print title
-    print "I made it after the title!"
-    # entry_body = request.form["entry"]
+    body = request.form["journalBody"]
+
     # add the entry to the model
     # entry_id = Entry(entry_body=entry_body, entry_date=entry_date, username=username, tag=tag)
 
     # db.session.add(entry_id)
     # db.session.commit()
 
-    return render_template("view_entries.html", title=title)
+    return render_template("view_entries.html", title=title, body=body)
 
 
 @app.route('/logout')
