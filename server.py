@@ -49,7 +49,7 @@ def register():
 @app.route('/new_entry', methods=['POST'])
 def handle_login():
     """Login the user. Store user in session cookie"""
-    #this function handles the form info from the homepage modal window 
+    #this function handles the form info from the homepage modal window
     username = request.form["username"]
     print "\n\n\n username ", username
     password = request.form["password"]
@@ -64,21 +64,30 @@ def handle_login():
         flash("Incorrect login")
         return redirect('/login')
 
-    quote, quote_author = get_quotes_for_footer() 
+    quote, quote_author = get_quotes_for_footer()
 
     return render_template("entry.html",
-                            quote=quote,
-                            quote_author=quote_author)
+                           quote=quote,
+                           quote_author=quote_author)
 
-@app.route('/entry')
-@login_required
+
+@app.route('/entry', methods=['POST'])
 def add_entry_to_db():
-    entry_body = request.form["entry"]
-    # add the entry to the model
-    entry_id = Entry(entry_body=entry_body, entry_date=entry_date, username=username, tag=tag)
+    """Save and redirect journal entries."""
 
-    db.session.add(entry_id)
-    db.session.commit()
+    print "I made it before the title!"
+    title = request.form["title"]
+    print title
+    print "I made it after the title!"
+    # entry_body = request.form["entry"]
+    # add the entry to the model
+    # entry_id = Entry(entry_body=entry_body, entry_date=entry_date, username=username, tag=tag)
+
+    # db.session.add(entry_id)
+    # db.session.commit()
+
+    return render_template("view_entries.html", title=title)
+
 
 @app.route('/logout')
 def logout_form():
@@ -88,6 +97,7 @@ def logout_form():
     session.clear()
 
     return redirect("/")
+
 
 @app.route('/recover', methods=('GET', 'POST', ))
 def recover_login_info():
