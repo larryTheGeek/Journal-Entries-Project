@@ -53,9 +53,9 @@ def handle_login():
 
     #this function handles the form info from the homepage modal window
     username = request.form["username"]
-    print "\n\n\n username ", username
+
     password = request.form["password"]
-    print "\n\n\n\n password ", password
+
     # password = bcrypt.generate_password_hash(request.form.get("password"))
 
     if request.form['password'] == password and request.form['username'] == username:
@@ -154,9 +154,10 @@ def get_quotes_for_footer():
 def view_entries_by_tag():
     """Create a function that sorts the entries by user's input tag"""
 
+    # from view_entries.html have a navbar?/button? where the user can sort through their past entries 
 
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
 
-    app.run(debug=True, host='0.0.0.0', port=5000) #vagrant requires port to be 5000
+    app.run(debug=True, host='127.0.0.1', port=5000) #vagrant requires port to be 5000
