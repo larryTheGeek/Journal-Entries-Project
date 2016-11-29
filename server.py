@@ -151,8 +151,8 @@ def get_quotes_for_footer():
     return quote, quote_author 
 
 
-def view_entries_by_tag():
-    """Create a function that sorts the entries by user's input tag"""
+# def view_entries_by_tag():
+#     """Create a function that sorts the entries by user's input tag"""
 
     # from view_entries.html have a navbar?/button? where the user can sort through their past entries 
 
@@ -160,4 +160,4 @@ def view_entries_by_tag():
 if __name__ == "__main__":
     DebugToolbarExtension(app)
 
-    app.run(debug=True, host='127.0.0.1', port=5000) #vagrant requires port to be 5000
+    app.run(debug=True, host='0.0.0.0', port=5000) #vagrant requires port to be 5000
