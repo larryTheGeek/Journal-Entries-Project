@@ -87,8 +87,14 @@ def add_entry_to_db():
 
     # db.session.add(entry_id)
     # db.session.commit()
+    quote, quote_author = get_quotes_for_footer()
 
-    return render_template("view_entries.html", title=title, body=body, tags=tags)
+
+    return render_template("view_entries.html", 
+                           title=title, 
+                           body=body, 
+                           quote=quote,
+                           quote_author=quote_author)
 
 
 @app.route('/logout')

@@ -8,9 +8,12 @@
 
 
 <body>
+    <!-- Prevent Header from Covering Content -->
     <br>
     <br>
     <br>
+
+    <!-- Flash functionality -->
     <div class="dynamic-container">
         <div class="row">
             <div class="container-fluid flashes"> 
@@ -28,8 +31,12 @@
             {% endwith %}
             </div>
         </div>
+
+        <!-- Journal Entry  -->
         <div class="row">
             <div class="col-md-2 col-md-offset-1">
+            <!-- Save and Exit allows journal entry title and body to display on view_entries.
+            html https://mail.python.org/pipermail/flask/2015-September/000078.html-->
             <form action="/entry" method="POST">
                 <br>
                 Journal Entry Title
@@ -75,6 +82,7 @@
 <br>
 <br>
 
+<!-- Will transfer JavaScript to separate file -->
 <script>
 //flash when the user logs in and removes div 
 $(".flashes").fadeOut(2000);
