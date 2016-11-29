@@ -79,6 +79,8 @@ def add_entry_to_db():
 
     title = request.form["title"]
     body = request.form["journalBody"]
+    tags = request.form.getlist('prof1')
+    print tags
 
     # add the entry to the model
     # entry_id = Entry(entry_body=entry_body, entry_date=entry_date, username=username, tag=tag)
@@ -86,6 +88,7 @@ def add_entry_to_db():
     # db.session.add(entry_id)
     # db.session.commit()
     quote, quote_author = get_quotes_for_footer()
+
 
     return render_template("view_entries.html", 
                            title=title, 
@@ -148,8 +151,8 @@ def get_quotes_for_footer():
     return quote, quote_author 
 
 
-def view_entries_by_tag():
-    """Create a function that sorts the entries by user's input tag"""
+# def view_entries_by_tag():
+#     """Create a function that sorts the entries by user's input tag"""
 
     # from view_entries.html have a navbar?/button? where the user can sort through their past entries 
 
@@ -157,4 +160,4 @@ def view_entries_by_tag():
 if __name__ == "__main__":
     DebugToolbarExtension(app)
 
-    app.run(debug=True, host='127.0.0.1', port=5000) #vagrant requires port to be 5000
+    app.run(debug=True, host='0.0.0.0', port=5000) #vagrant requires port to be 5000
