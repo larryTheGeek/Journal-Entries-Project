@@ -79,6 +79,8 @@ def add_entry_to_db():
 
     title = request.form["title"]
     body = request.form["journalBody"]
+    tags = request.form.getlist('prof1')
+    print tags
 
     # add the entry to the model
     # entry_id = Entry(entry_body=entry_body, entry_date=entry_date, username=username, tag=tag)
@@ -86,7 +88,7 @@ def add_entry_to_db():
     # db.session.add(entry_id)
     # db.session.commit()
 
-    return render_template("view_entries.html", title=title, body=body)
+    return render_template("view_entries.html", title=title, body=body, tags=tags)
 
 
 @app.route('/logout')
