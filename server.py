@@ -1,9 +1,9 @@
-import os 
+import os
 from flask import Flask, render_template, request, flash, redirect, session, abort
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
 from datetime import datetime
-from model import User, Entry, Tag, EntryTag
+from model import db, User, Entry, Tag, EntryTag
 import json
 import pdb
 from flask_login import login_required, current_user
@@ -15,6 +15,7 @@ app = Flask(__name__)
 
 app.secret_key = "Shhhhh"
 
+
 @app.route('/')
 def homepage():
     """Display the homepage to the user"""
@@ -22,13 +23,14 @@ def homepage():
     quote, quote_author = get_quotes_for_footer()
 
     if not session.get('logged_in'):
-        return render_template("homepage.html", 
-                                quote=quote, 
-                                quote_author=quote_author)
-    else: 
-        return render_template("entry.html", 
-                                quote=quote,
-                                quote_author=quote_author)
+        return render_template("homepage.html",
+                               quote=quote,
+                               quote_author=quote_author)
+    else:
+        return render_template("entry.html",
+                               quote=quote,
+                               quote_author=quote_author)
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -78,21 +80,24 @@ def add_entry_to_db():
     """Save and redirect journal entries."""
 
     title = request.form["title"]
+    print "\n\n\n\n\ntitle", title
     body = request.form["journalBody"]
+    print "\n\n\n\n\njournalBody", body
     tags = request.form.getlist('prof1')
-    print tags
+    print "\n\n\n\n\ntags", tags
 
-    # add the entry to the model
-    # entry_id = Entry(entry_body=entry_body, entry_date=entry_date, username=username, tag=tag)
+    entry = Entry(entry_body=body, entry_title=title)
+    print "\n\n\n\n\nentry", entry
+    # Need to consider entry_date
+    # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
 
-    # db.session.add(entry_id)
-    # db.session.commit()
+    db.session.add(entry)
+    db.session.commit()
     quote, quote_author = get_quotes_for_footer()
 
-
-    return render_template("view_entries.html", 
-                           title=title, 
-                           body=body, 
+    return render_template("view_entries.html",
+                           title=title,
+                           body=body,
                            quote=quote,
                            quote_author=quote_author)
 
@@ -148,7 +153,7 @@ def get_quotes_for_footer():
         quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
         quote_author = unicode("Benjamin Disraeli", "utf-8")
 
-    return quote, quote_author 
+    return quote, quote_author
 
 
 # def view_entries_by_tag():
