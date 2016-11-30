@@ -34,6 +34,32 @@ def homepage():
                                quote_author=quote_author)
 
 
+@app.route('/login', methods=['POST'])
+def handle_login():
+    """Process login and store user in session."""
+
+    # this function handles the form info from the homepage modal window
+    username = request.form["username"]
+    password = bcrypt.generate_password_hash(request.form.get("password"))
+
+    # Check that the user exists.
+    uq = User.query
+    user_object = uq.filter_by(username=username).first()
+
+    if user_object and bcrypt.check_password_hash(password, user_object.password):
+
+        session["user_id"] = user_object.user_id
+        session["logged_in"] = True
+
+        flash("Hello again - You are logged in!")
+
+        return redirect("/new_entry")
+
+    else:
+        flash("Incorrect login")
+        return redirect("/")
+
+
 @app.route('/register', methods=['POST'])
 def register():
     """Register the user"""
@@ -57,25 +83,9 @@ def register():
     return redirect('/')
 
 
-@app.route('/new_entry', methods=['POST'])
-def handle_login():
-    """Handles user login and displays new journal entry form."""
-
-    #this function handles the form info from the homepage modal window
-    username = request.form["username"]
-    password = request.form["password"]
-
-    uq = User.query
-    user_object = uq.filter_by(username=username).first()
-
-    if request.form['password'] == password and request.form['username'] == username:
-        session['logged_in'] = True
-        session['user_id'] = user_object.user_id
-        flash("Hello again - You are logged in!")
-
-    else:
-        flash("Incorrect login")
-        return redirect('/')
+@app.route('/new_entry')
+def new_entry():
+    """Displays new journal entry form."""
 
     quote, quote_author = get_quotes_for_footer()
 
