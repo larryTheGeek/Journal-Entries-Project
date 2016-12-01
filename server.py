@@ -3,17 +3,19 @@ from flask import Flask, render_template, request, flash, redirect, session, abo
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
 from datetime import datetime
-from model import db, User, Entry, Tag, EntryTag
+from model import connect_to_db, db, User, Entry, Tag, EntryTag
 import json
 import pdb
 from flask_login import login_required, current_user
-# from flask_bcrypt import bcrypt
+from flask_bcrypt import Bcrypt
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from flask.ext.login import current_user,current_app
 
 app = Flask(__name__)
 
 app.secret_key = "Shhhhh"
+
+bcrypt = Bcrypt(app)
 
 
 @app.route('/')
@@ -35,12 +37,18 @@ def homepage():
 @app.route('/register', methods=['POST'])
 def register():
     """Register the user"""
+
     username = request.form["username"]
     email = request.form["email"]
     password = request.form["password"]
+    # password = bcrypt.generate_password_hash(request.form.get("password"))
 
-    #add the new user to the model
+    # Add the new user to the model
     new_user = User(username=username, password=password, email=email)
+
+    # FIXME: grab the user_id to store in the session for later use.
+    # user_id = db.session.query(User.user_id).filter_by(username=username).first()[0]
+    # session['user_id']
 
     db.session.add(new_user)
     db.session.commit()
@@ -55,18 +63,19 @@ def handle_login():
 
     #this function handles the form info from the homepage modal window
     username = request.form["username"]
-
     password = request.form["password"]
 
-    # password = bcrypt.generate_password_hash(request.form.get("password"))
+    uq = User.query
+    user_object = uq.filter_by(username=username).first()
 
     if request.form['password'] == password and request.form['username'] == username:
         session['logged_in'] = True
+        session['user_id'] = user_object.user_id
         flash("Hello again - You are logged in!")
 
     else:
         flash("Incorrect login")
-        return redirect('/login')
+        return redirect('/')
 
     quote, quote_author = get_quotes_for_footer()
 
@@ -80,14 +89,13 @@ def add_entry_to_db():
     """Save and redirect journal entries."""
 
     title = request.form["title"]
-    print "\n\n\n\n\ntitle", title
     body = request.form["journalBody"]
-    print "\n\n\n\n\njournalBody", body
     tags = request.form.getlist('prof1')
-    print "\n\n\n\n\ntags", tags
 
-    entry = Entry(entry_body=body, entry_title=title)
-    print "\n\n\n\n\nentry", entry
+    user_id = session['user_id']
+
+    entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
+
     # Need to consider entry_date
     # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
 
@@ -164,5 +172,7 @@ def get_quotes_for_footer():
 
 if __name__ == "__main__":
     DebugToolbarExtension(app)
+
+    connect_to_db(app)
 
     app.run(debug=True, host='0.0.0.0', port=5000) #vagrant requires port to be 5000
