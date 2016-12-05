@@ -97,27 +97,35 @@ def new_entry():
 @app.route('/entry', methods=['POST'])
 def add_entry_to_db():
     """Save and redirect journal entries."""
+    try:
+        title = request.form["title"]
+        body = request.form["journalBody"]
+        tags = request.form.getlist('prof1')
 
-    title = request.form["title"]
-    body = request.form["journalBody"]
-    tags = request.form.getlist('prof1')
+        user_id = session['user_id']
 
-    user_id = session['user_id']
+        entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
 
-    entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
+        # Need to consider entry_date
+        # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
 
-    # Need to consider entry_date
-    # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
+        db.session.add(entry)
+        db.session.commit()
 
-    db.session.add(entry)
-    db.session.commit()
-    quote, quote_author = get_quotes_for_footer()
+        quote, quote_author = get_quotes_for_footer()
 
-    return render_template("view_entries.html",
+        return render_template("view_entries.html",
                            title=title,
                            body=body,
                            quote=quote,
                            quote_author=quote_author)
+    except:
+        
+        quote, quote_author = get_quotes_for_footer()
+        
+        return render_template("error.html",
+                                quote=quote,
+                                quote_author=quote_author)
 
 
 @app.route('/logout')
