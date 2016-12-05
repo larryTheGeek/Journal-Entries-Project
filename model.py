@@ -60,7 +60,7 @@ class Entry(db.Model):  # many to many relationship with tags, many to one with 
     __tablename__ = "entries"
 
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    entry_date = db.Column(db.DateTime)  # this can be queried later
+    entry_date = db.Column(db.DateTime, nullable=True)  # this can be queried later
     entry_title = db.Column(db.String(50))
     entry_body = db.Column(db.String(1000), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
