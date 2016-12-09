@@ -13,6 +13,9 @@
 <body id="homepage">
     <div class="dynamic-container">
         <div class="overlay"></div>
+        <!-- Not sure about best practice on this one but this amount of <br>
+        tags centers the text and buttons in a visually appealing way
+        Maybe there should be another container that's just blank instead? -->
         <br>
         <br>
         <br>
@@ -32,7 +35,7 @@
     <div class="dynamic-container">
         <div class="row">
             <div>
-        <!-- insert modal window -->
+        <!-- Login modal window -->
                 <div id='overlay'> <!--overlay semi-transparent layer that fills the visitor's viewport-->
                     <!--bootstrap to center the modal window!-->
                 <div class="col-xs-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3" id="modal">
@@ -80,7 +83,7 @@
 
                 <div class="row">
             <div>
-        <!-- insert modal window -->
+        <!-- Register modal window -->
                 <div id='overlay_r'> <!--overlay semi-transparent layer that fills the visitor's viewport-->
                     <!--bootstrap to center the modal window!-->
                 <div class="col-xs-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3" id="modal_r">
@@ -139,12 +142,6 @@
 
     <br>
     <br>
-
-<!--     <div class="row" id="placeholderkitten">
-        <div class="container-fluid">
-            <img src="http://placekitten.com/g/1250/200"/>
-        </div>
-    </div> -->
     </div> <!-- closes main div -->
 </body>
 
@@ -163,39 +160,21 @@ $("#login_btn").on("click", function() {
 );
 
 //When the user clicks outside the modal window show the login and register buttons
+//this isn't working only can exit the modal window by clicking the close link
 $('#close-modal' || '#overlay').on("click", function() {
     $('#modal').hide();
     $('#login_btn').show();
     $('#register_btn').show();
 });
 
-// $("#submit-login").submit("click", function() {
-//     var username = $().val();
-//     var password = $().val();
+$("#register_btn").on("click", function() {
+    $("#modal_r").toggle();
+    //User cannot see the login and register buttons
+    $("#login_btn").toggle();
+    $("#register_btn").toggle();
 
-//     $.ajax({
-//         url: '/login',
-//         data: 
-//     })
-// });
-
-// When the user clicks outside the modal window hide it
-// $("submit-login").on("click", function() {
-//     var username = $('#txtUsername').val();
-//     var password = $('#txtPassword').val();
-//         $.ajax({
-//             url: '/login',
-//             data: $('form').serialize(),
-//             type: 'POST',
-//             success: function(response) {
-//                 console.log(response);
-//             },
-//             error: function(error) {
-//                 console.log(error);
-// })
-
-// 
-
+}
+);
 
 
 </script>
