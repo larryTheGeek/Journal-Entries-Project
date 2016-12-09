@@ -1,3 +1,7 @@
+#homepage {
+  background-image: url("/static/images/typewriter.jpg");
+}
+
 #quote {
     text-align: center;
 }
