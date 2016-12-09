@@ -64,27 +64,36 @@ def handle_login():
 def register():
     """Register the user"""
 
-    username = request.form["username"]
-    email = request.form["email"]
-    password = request.form["password"]
-    # password = bcrypt.generate_password_hash(request.form.get("password"))
+    try:
+        username = request.form["username"]
+        print "\n\n\n\n", username
+        email = request.form["email"]
+        print "\n\n\n\n", username
+        password = request.form["password"]
+        print "\n\n\n\n", username
+        # password = bcrypt.generate_password_hash(request.form.get("password"))
 
-    # Add the new user to the model
-    new_user = User(username=username, password=password, email=email)
+        # Add the new user to the model
+        new_user = User(username=username, password=password, email=email)
 
-    # FIXME: grab the user_id to store in the session for later use.
-    # user_id = db.session.query(User.user_id).filter_by(username=username).first()[0]
-    # session['user_id']
+        # FIXME: grab the user_id to store in the session for later use.
+        # user_id = db.session.query(User.user_id).filter_by(username=username).first()[0]
+        # session['user_id']
 
-    db.session.add(new_user)
-    db.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
 
-    flash("You have just registered! Login to start writing entries. Thank you!")
-    quote, quote_author = get_quotes_for_footer()
+        flash("You have just registered! Login to start writing entries. Thank you!")
+        quote, quote_author = get_quotes_for_footer()
 
-    return render_template("entry.html",
+        return render_template("entry.html",
                            quote=quote,
                            quote_author=quote_author)
+    
+    except:
+        quote, quote_author = get_quotes_for_footer()
+
+        return redirect("/")
 
 
 @app.route('/new_entry')
