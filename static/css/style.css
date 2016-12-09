@@ -91,7 +91,7 @@
 }
 
 .advise {
-    position: absolute;
+    position: relative;
     font-size: 65px;
     color: #fff;
     font-weight: bold;
