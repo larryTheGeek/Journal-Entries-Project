@@ -20,6 +20,9 @@
     <li class="nav nav-item navbar-default navbar-fixed-top">
             {% if session.logged_in %}
                 <a class="nav-link" href="{{ '/new_entry' }}">New Entry</a>
+            {% endif %}
+    <li class="nav nav-item navbar-default navbar-fixed-top">
+            {% if session.logged_in %}
                 <a class="nav-link" href="{{ '/logout' }}">Log out</a>
             {% endif %}
     </li>
