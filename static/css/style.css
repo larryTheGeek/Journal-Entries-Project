@@ -1,3 +1,7 @@
+#homepage {
+  background-image: url("/static/images/typewriter.jpg");
+}
+
 #quote {
     text-align: center;
 }
@@ -87,7 +91,7 @@
 }
 
 .advise {
-    position: absolute;
+    position: relative;
     font-size: 65px;
     color: #fff;
     font-weight: bold;
