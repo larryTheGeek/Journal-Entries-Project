@@ -80,7 +80,11 @@ def register():
     db.session.commit()
 
     flash("You have just registered! Login to start writing entries. Thank you!")
-    return redirect('/')
+    quote, quote_author = get_quotes_for_footer()
+
+    return render_template("entry.html",
+                           quote=quote,
+                           quote_author=quote_author)
 
 
 @app.route('/new_entry')
