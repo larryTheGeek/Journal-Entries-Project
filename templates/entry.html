@@ -67,7 +67,7 @@
 
                 Journal Body<br>
                 <br>
-                <textarea id="entry" rows="20" cols="150" name="journalBody"></textarea><br>
+                <textarea id="entry" rows="15" cols="150" name="journalBody"></textarea><br>
                 <br>
 
                 <div id="submission-btn" class="text center">
@@ -87,6 +87,7 @@
 <script>
 //flash when the user logs in and removes div 
 $(".flashes").fadeOut(2000);
+$(".alert").fadeOut(2000);
 
 $(".add-more").on("click", function() { 
         var next = 1; 

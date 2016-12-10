@@ -21,8 +21,7 @@ class User(db.Model):  # one to many relationship between User - Entry
     def __repr__(self):
         """Human readable when printed"""
 
-        return "<Username is <%s>, email address is <%s>, and password is \
-        shhhhh we don't tell>" % (self.user_id, self.username)
+        return "<User_id is <%s>, username is <%s>" % (self.user_id, self.username)
 
     @classmethod
     def get_by_username(cls, username):
@@ -62,10 +61,8 @@ class Entry(db.Model):  # many to many relationship with tags, many to one with 
 
     # def __repr__(self):
     #     """Human readable when printed"""
-
     #     return "<Entry id is <%s> with Datetime <%s> for username <%s>\
     #     " % (self.entry_id, self.entry_date)
-
 
 class Tag(db.Model):  # many to many relationship between Tags and Entries
     """Journal entries can have multiple tags"""
