@@ -100,7 +100,7 @@ class EntryTag(db.Model):
 
     __tablename__ = "entry_tags"
 
-    entrytag_id = db.Column(db.Integer, primary_key=True)
+    entrytag_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     entry_id = db.Column(db.Integer, db.ForeignKey('entries.entry_id'), nullable=False)
     tag_1 = db.Column(db.String(50), db.ForeignKey('tags.tag_1'), nullable=False)
 
