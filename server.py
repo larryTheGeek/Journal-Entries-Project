@@ -107,7 +107,7 @@ def new_entry():
                            quote_author=quote_author)
 
 
-@app.route('/entry', methods=['POST'])
+@app.route('/entry', methods=['GET', 'POST'])
 def add_entry_to_db():
     """Save and redirect journal entries."""
     try:
