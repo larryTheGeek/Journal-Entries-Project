@@ -103,21 +103,21 @@
                         <p>
                         <a href id="close-modal_r">Close</a>
                             <div id="register">   
-                              <h2>Welcome Aboard</h2>
+                            <h2>Welcome Aboard</h2>
                               
-                              <form action="/register" method="POST">
+                            <form action="{{ url_for('register') }}" method="POST">
                               
                                 <div class="field-wrap">
                                 <label id="email">
                                   Email <span class="req">*</span>
                                 </label>
-                                <input type="email" required autocomplete="on"/> 
+                                <input type="email" required autocomplete="on" value="" name="email"/> 
                                 <br>
                                 <br>
                                 <label id="username">
                                   Username <span class="req">*</span>
                                 </label>
-                                <input type="username"required autocomplete="off"/>
+                                <input type="username"required autocomplete="off" value="" name="username"/>
                               </div>
                               <br>
 
@@ -126,13 +126,13 @@
                                   Password<span class="req">*</span>
                                 </label>
 
-                                <input type="password"required autocomplete="off"/>
+                                <input type="password"required autocomplete="off" value="" name="password"/>
                               </div>
                               
                         </p>    
                         <div>
                         <input type="submit" value="Register" class="btn btn-outline-info"></div>
-                    </form>
+                            </form>
                     </div>
                     </div>
                 </div> <!-- closes modal -->
