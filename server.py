@@ -33,7 +33,6 @@ def homepage():
                                quote=quote,
                                quote_author=quote_author)
 
-
 @app.route('/login', methods=['POST'])
 def handle_login():
     """Process login and store user in session."""
@@ -128,6 +127,24 @@ def add_entry_to_db():
         quote, quote_author = get_quotes_for_footer()
 
         return render_template("view_entries.html",
+                              
+    title = request.form["title"]
+    print "\n\n\n\n\ntitle", title
+    body = request.form["journalBody"]
+    print "\n\n\n\n\njournalBody", body
+    tags = request.form.getlist('prof1')
+    print "\n\n\n\n\ntags", tags
+
+    entry = Entry(entry_body=body, entry_title=title)
+    print "\n\n\n\n\nentry", entry
+    # Need to consider entry_date
+    # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
+
+    db.session.add(entry)
+    db.session.commit()
+    quote, quote_author = get_quotes_for_footer()
+
+    return render_template("view_entries.html",
                            title=title,
                            body=body,
                            quote=quote,
@@ -178,7 +195,7 @@ def get_quotes_for_footer():
         quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
         quote_author = unicode("Benjamin Disraeli", "utf-8")
 
-    return quote, quote_author 
+    return quote, quote_author
 
 
 if __name__ == "__main__":
