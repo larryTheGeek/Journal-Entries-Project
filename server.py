@@ -58,7 +58,34 @@ def handle_login():
         flash("Incorrect login")
         return redirect("/")
 
+
+@app.route('/login', methods=['POST'])
+def handle_login():
+    """Process login and store user in session."""
+
+    # this function handles the form info from the homepage modal window
+    username = request.form["username"]
+    password = bcrypt.generate_password_hash(request.form.get("password"))
+
+    # Check that the user exists.
+    uq = User.query
+    user_object = uq.filter_by(username=username).first()
+
+    if user_object and bcrypt.check_password_hash(password, user_object.password):
+
+        session["user_id"] = user_object.user_id
+        session["logged_in"] = True
+
+        flash("Hello again - You are logged in!")
+
+        return redirect("/new_entry")
+
+    else:
+        flash("Incorrect login")
+        return redirect("/")
+
 # https://www.reddit.com/r/flask/comments/1vziqt/flaskwtf_multiple_forms_on_page_headache/
+
 @app.route('/register', methods=['POST'])
 def register():
     """Register the user"""
@@ -69,6 +96,7 @@ def register():
     email = request.form["email"]
     print "\n\n\n\n", username
     password = request.form["password"]
+
     print "\n\n\n\n", username
     # password = bcrypt.generate_password_hash(request.form.get("password"))
 
@@ -83,11 +111,12 @@ def register():
     db.session.commit()
 
     flash("You have just registered! Login to start writing entries. Thank you!")
+
     quote, quote_author = get_quotes_for_footer()
 
     return render_template("entry.html",
-                       quote=quote,
-                       quote_author=quote_author)
+                           quote=quote,
+                           quote_author=quote_author)
     
     # except:
     #     quote, quote_author = get_quotes_for_footer()
@@ -109,6 +138,7 @@ def new_entry():
 @app.route('/entry', methods=['GET', 'POST'])
 def add_entry_to_db():
     """Save and redirect journal entries."""
+
     try:
         title = request.form["title"]
         body = request.form["journalBody"]
@@ -135,16 +165,18 @@ def add_entry_to_db():
     tags = request.form.getlist('prof1')
     print "\n\n\n\n\ntags", tags
 
-    entry = Entry(entry_body=body, entry_title=title)
-    print "\n\n\n\n\nentry", entry
-    # Need to consider entry_date
-    # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
 
-    db.session.add(entry)
-    db.session.commit()
-    quote, quote_author = get_quotes_for_footer()
+        entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
 
-    return render_template("view_entries.html",
+        # Need to consider entry_date
+        # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
+
+        db.session.add(entry)
+        db.session.commit()
+
+        quote, quote_author = get_quotes_for_footer()
+
+        return render_template("view_entries.html",
                            title=title,
                            body=body,
                            quote=quote,
