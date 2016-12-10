@@ -164,19 +164,6 @@ def recover_login_info():
             print token
     return redirect("/")
 
-# if token and verified_result:
-#     is_verified_token = True
-#     password_submit_form = ResetPasswordSubmit(request.form)
-#     if password_submit_form.validate_on_submit():
-#         verified_result.pasword = generate_password_hash(password_submit_form.password.data)
-#         verified_result.is_active = True
-#         db.session.add(verified_result)
-#         db.session.commit()
-
-#         flash("Password updated successfully!")
-#         return redirect("/new_entry")
-
-
 ########################### Helper Functions ###################################
 
 def get_quotes_for_footer():
@@ -184,21 +171,14 @@ def get_quotes_for_footer():
     try:
         r = requests.get("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
         quote = r.json()["quoteText"]
-        print "\n\n this is the quote: ", quote
 
         quote_author = r.json()["quoteAuthor"]
-        print "\n\n  this is the author: ", quote_author
+
     except:
         quote = unicode("Through perseverance many people win success out of what seemed destined to be certain failure.", "utf-8")
         quote_author = unicode("Benjamin Disraeli", "utf-8")
 
-    return quote, quote_author
-
-
-# def view_entries_by_tag():
-#     """Create a function that sorts the entries by user's input tag"""
-
-    # from view_entries.html have a navbar?/button? where the user can sort through their past entries 
+    return quote, quote_author 
 
 
 if __name__ == "__main__":
