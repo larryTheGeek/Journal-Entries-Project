@@ -11,18 +11,10 @@ class User(db.Model):  # one to many relationship between User - Entry
     # Users log into the app through a username and password. The can provide an
     # email to request their password if it's forgotten
 
-    user_id = db.Column(db.Integer,
-                        primary_key=True,
-                        autoincrement=True)
-
-    username = db.Column(db.String(100),
-                         nullable=False,
-                         unique=True)
-
-    password = db.Column(db.String(100),
-                         nullable=False)
-
-    email = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    username = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(100), nullable=False)  # does this need to be hashed? <input type = password>
+    email = db.Column(db.String(100), nullable=True)  # <input type = email>
 
     entries = db.relationship('Entry', backref='users', lazy='dynamic')  # lazy means you can find out how many entries per user
 
@@ -61,18 +53,16 @@ class Entry(db.Model):  # many to many relationship with tags, many to one with 
 
     entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     entry_date = db.Column(db.DateTime, nullable=True)  # this can be queried later
-    entry_title = db.Column(db.String(50))
+    entry_title = db.Column(db.String(50), nullable=True)
     entry_body = db.Column(db.String(1000), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
 
     user = db.relationship('User', backref='users')
 
     # def __repr__(self):
     #     """Human readable when printed"""
-
     #     return "<Entry id is <%s> with Datetime <%s> for username <%s>\
     #     " % (self.entry_id, self.entry_date)
-
 
 class Tag(db.Model):  # many to many relationship between Tags and Entries
     """Journal entries can have multiple tags"""
