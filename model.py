@@ -69,10 +69,8 @@ class Entry(db.Model):  # many to many relationship with tags, many to one with 
 
     # def __repr__(self):
     #     """Human readable when printed"""
-
     #     return "<Entry id is <%s> with Datetime <%s> for username <%s>\
     #     " % (self.entry_id, self.entry_date)
-
 
 class Tag(db.Model):  # many to many relationship between Tags and Entries
     """Journal entries can have multiple tags"""
