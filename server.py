@@ -33,6 +33,7 @@ def homepage():
                                quote=quote,
                                quote_author=quote_author)
 
+
 @app.route('/login', methods=['POST'])
 def handle_login():
     """Process login and store user in session."""
@@ -62,18 +63,16 @@ def handle_login():
         return redirect("/")
 
 # https://www.reddit.com/r/flask/comments/1vziqt/flaskwtf_multiple_forms_on_page_headache/
+
+
 @app.route('/register', methods=['POST'])
 def register():
     """Register the user"""
 
     # try:
     username = request.form["username"]
-    print "\n\n\n\n", username
     email = request.form["email"]
-    print "\n\n\n\n", username
-    password = request.form["password"]
-    print "\n\n\n\n", username
-    # password = bcrypt.generate_password_hash(request.form.get("password"))
+    password = bcrypt.generate_password_hash(request.form.get("password"))
 
     # Add the new user to the model
     new_user = User(username=username, password=password, email=email)
@@ -86,12 +85,13 @@ def register():
     db.session.commit()
 
     flash("You have just registered! Login to start writing entries. Thank you!")
+
     quote, quote_author = get_quotes_for_footer()
 
     return render_template("entry.html",
-                       quote=quote,
-                       quote_author=quote_author)
-    
+                           quote=quote,
+                           quote_author=quote_author)
+
     # except:
     #     quote, quote_author = get_quotes_for_footer()
 
@@ -112,6 +112,7 @@ def new_entry():
 @app.route('/entry', methods=['GET', 'POST'])
 def add_entry_to_db():
     """Save and redirect journal entries."""
+
     try:
         title = request.form["title"]
         body = request.form["journalBody"]
@@ -129,36 +130,30 @@ def add_entry_to_db():
 
         quote, quote_author = get_quotes_for_footer()
 
-        return render_template("view_entries.html",
-                              
-    title = request.form["title"]
-    print "\n\n\n\n\ntitle", title
-    body = request.form["journalBody"]
-    print "\n\n\n\n\njournalBody", body
-    tags = request.form.getlist('prof1')
-    print "\n\n\n\n\ntags", tags
+        return render_template("view_entries.html", title, body, tags)
 
-    entry = Entry(entry_body=body, entry_title=title)
-    print "\n\n\n\n\nentry", entry
-    # Need to consider entry_date
-    # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
+        entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
 
-    db.session.add(entry)
-    db.session.commit()
-    quote, quote_author = get_quotes_for_footer()
+        # Need to consider entry_date
+        # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
 
-    return render_template("view_entries.html",
-                           title=title,
-                           body=body,
-                           quote=quote,
-                           quote_author=quote_author)
-    except:
-        
+        db.session.add(entry)
+        db.session.commit()
+
         quote, quote_author = get_quotes_for_footer()
-        
+
+        return render_template("view_entries.html",
+                               title=title,
+                               body=body,
+                               quote=quote,
+                               quote_author=quote_author)
+    except:
+
+        quote, quote_author = get_quotes_for_footer()
+
         return render_template("error.html",
-                                quote=quote,
-                                quote_author=quote_author)
+                               quote=quote,
+                               quote_author=quote_author)
 
 @app.route('/view_entries')
 def view_entries():
