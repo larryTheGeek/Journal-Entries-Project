@@ -83,6 +83,8 @@ def register():
 
     db.session.add(new_user)
     db.session.commit()
+    
+    session["logged_in"] = True
 
     session["logged_in"] = True
 
