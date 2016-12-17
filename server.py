@@ -80,6 +80,8 @@ def register():
 
     db.session.add(new_user)
     db.session.commit()
+    
+    session["logged_in"] = True
 
     flash("You have just registered! Login to start writing entries. Thank you!")
 
