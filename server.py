@@ -160,7 +160,23 @@ def add_entry_to_db():
 @app.route('/view_entries')
 def view_entries():
     """User views their entries"""
-    pass
+
+    if "user_id" in session:
+        user_id = session["user_id"] 
+        print "\n\n\n\n\n session user_id", user_id
+
+        sql = """SELECT entry_title, entry_body FROM entries WHERE user_id IS :user_id"""
+        cursor = db.session.execute(sql, 
+                                    {'user_id' : user_id})
+
+        user_entries = cursor.fetchall()
+
+        quote, quote_author = get_quotes_for_footer()
+
+        return render_template("view_entries.html", 
+                                user_entries=user_entries,
+                                quote=quote,
+                                quote_author=quote_author)
 
 @app.route('/logout')
 def logout_form():

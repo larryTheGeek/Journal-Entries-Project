@@ -59,11 +59,21 @@ class Entry(db.Model):  # many to many relationship with tags, many to one with 
 
     __tablename__ = "entries"
 
-    entry_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    entry_date = db.Column(db.DateTime, nullable=True)  # this can be queried later
+    entry_id = db.Column(db.Integer, 
+                         autoincrement=True, 
+                         primary_key=True)
+    
+    entry_date = db.Column(db.DateTime, 
+                           nullable=True)  # this can be queried later
+    
     entry_title = db.Column(db.String(50))
-    entry_body = db.Column(db.String(1000), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=True)
+    
+    entry_body = db.Column(db.String(1000), 
+                           nullable=False)
+    
+    user_id = db.Column(db.Integer, 
+                        db.ForeignKey('users.user_id'), 
+                        nullable=True)
 
     user = db.relationship('User', backref='users')
 
@@ -77,13 +87,25 @@ class Tag(db.Model):  # many to many relationship between Tags and Entries
 
     __tablename__ = "tags"
 
-    tag_1 = db.Column(db.String(25), default='contemplative', primary_key=True)
+    tag_1 = db.Column(db.String(25), 
+                      default='contemplative', 
+                      primary_key=True)
+    
     # Structuring this correctly? The entry can have up to five tags
-    tag_2 = db.Column(db.String(25), nullable=True)
-    tag_3 = db.Column(db.String(25), nullable=True)
-    tag_4 = db.Column(db.String(25), nullable=True)
-    tag_5 = db.Column(db.String(25), nullable=True)
-    tag_6 = db.Column(db.String(25), nullable=True)
+    tag_2 = db.Column(db.String(25), 
+                      nullable=True)
+    
+    tag_3 = db.Column(db.String(25), 
+                      nullable=True)
+    
+    tag_4 = db.Column(db.String(25), 
+                      nullable=True)
+    
+    tag_5 = db.Column(db.String(25), 
+                      nullable=True)
+    
+    tag_6 = db.Column(db.String(25), 
+                      nullable=True)
 
     @classmethod
     def get_by_tag_type(cls, tag):
@@ -98,11 +120,20 @@ class EntryTag(db.Model):
 
     __tablename__ = "entry_tags"
 
-    entrytag_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    entry_id = db.Column(db.Integer, db.ForeignKey('entries.entry_id'), nullable=False)
-    tag_1 = db.Column(db.String(50), db.ForeignKey('tags.tag_1'), nullable=False)
+    entrytag_id = db.Column(db.Integer, 
+                            primary_key=True, 
+                            autoincrement=True)
+
+    entry_id = db.Column(db.Integer, 
+                         db.ForeignKey('entries.entry_id'), 
+                         nullable=False)
+
+    tag_1 = db.Column(db.String(50), 
+                      db.ForeignKey('tags.tag_1'), 
+                      nullable=False)
 
     entry = db.relationship('Entry', backref='entries')
+    
     tag = db.relationship('Tag', backref='tags')
 
 
