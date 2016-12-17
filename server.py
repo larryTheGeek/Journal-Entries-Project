@@ -52,8 +52,11 @@ def handle_login():
         session["logged_in"] = True
 
         flash("Hello again - You are logged in!")
+        quote, quote_author = get_quotes_for_footer()
 
-        return redirect("/new_entry")
+        return render_template("entry.html",
+                                quote=quote,
+                                quote_author=quote_author)
 
     else:
         flash("Incorrect login")
@@ -81,6 +84,8 @@ def register():
     db.session.add(new_user)
     db.session.commit()
     
+    session["logged_in"] = True
+
     session["logged_in"] = True
 
     flash("You have just registered! Login to start writing entries. Thank you!")
@@ -154,6 +159,10 @@ def add_entry_to_db():
                                quote=quote,
                                quote_author=quote_author)
 
+@app.route('/view_entries')
+def view_entries():
+    """User views their entries"""
+    pass
 
 @app.route('/logout')
 def logout_form():
