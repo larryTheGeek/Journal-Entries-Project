@@ -157,7 +157,7 @@ def add_entry_to_db():
                                quote=quote,
                                quote_author=quote_author)
 
-@app.route('/view_entries')
+@app.route('/view_entries', methods=['GET', 'POST'])
 def view_entries():
     """User views their entries"""
 
@@ -173,7 +173,7 @@ def view_entries():
 
         user_entries = Entry.query.filter(Entry.user_id == user_id).all()
         print "\n\n\n\n\n", user_entries #[<model.Entry object at 0x7f82825f8310>]
-        print "\n\n\n\n", user_entries[0].entry_body
+    
 
         quote, quote_author = get_quotes_for_footer()
 

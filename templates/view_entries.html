@@ -14,9 +14,9 @@
 <h1>View Entries page!</h1>
 <br>
         <div class="content"> 
-            {% for entry_body in user_entries %} 
+            {% for u in user_entries %} 
             <br>
-                    <p> {{ user_entries[0].entry_body }} <b>
+                    <p> {{ u.__dict__ }} <p>
             <br>
             {% endfor %}
         </div>
