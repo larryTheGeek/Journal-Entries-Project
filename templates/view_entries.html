@@ -17,6 +17,10 @@
             {% for u in user_entries %} 
             <br>
                     <p> {{ u.__dict__ }} <p>
+                        
+<!-- {'_sa_instance_state': <sqlalchemy.orm.state.InstanceState object at 0x7fc9767134d0>, 'user_id': 1, 'entry_body': u'It was a good day and I felt like I could take on the world', 'entry_id': 1, 'entry_date': datetime.datetime(2016, 11, 11, 0, 1), 'entry_title': u'Update on my day'} -->
+
+
             <br>
             {% endfor %}
         </div>
