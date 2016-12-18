@@ -165,11 +165,15 @@ def view_entries():
         user_id = session["user_id"] 
         print "\n\n\n\n\n session user_id", user_id
 
-        sql = """SELECT entry_title, entry_body FROM entries WHERE user_id IS :user_id"""
-        cursor = db.session.execute(sql, 
-                                    {'user_id' : user_id})
+        # sql = """SELECT entry_title, entry_body FROM entries WHERE user_id IS :user_id"""
+        # cursor = db.session.execute(sql, 
+        #                             {'user_id' : user_id})
 
-        user_entries = cursor.fetchall()
+        # user_entries = cursor.fetchall()
+
+        user_entries = Entry.query.filter(Entry.user_id == user_id).all()
+        print "\n\n\n\n\n", user_entries #[<model.Entry object at 0x7f82825f8310>]
+        print "\n\n\n\n", user_entries[0].entry_body
 
         quote, quote_author = get_quotes_for_footer()
 

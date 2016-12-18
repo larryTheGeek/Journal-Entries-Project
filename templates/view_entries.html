@@ -12,8 +12,14 @@
 <br>
 
 <h1>View Entries page!</h1>
-{{ title }}<br><br>
-{{ body }}
+<br>
+        <div class="content"> 
+            {% for entry_body in user_entries %} 
+            <br>
+                    <p> {{ user_entries[0].entry_body }} <b>
+            <br>
+            {% endfor %}
+        </div>
 
 {% endblock %}
 
