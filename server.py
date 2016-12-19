@@ -132,18 +132,6 @@ def add_entry_to_db():
 
         quote, quote_author = get_quotes_for_footer()
 
-        return render_template("view_entries.html", title, body, tags)
-
-        entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
-
-        # Need to consider entry_date
-        # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
-
-        db.session.add(entry)
-        db.session.commit()
-
-        quote, quote_author = get_quotes_for_footer()
-
         return render_template("view_entries.html",
                                title=title,
                                body=body,
@@ -161,26 +149,25 @@ def add_entry_to_db():
 def view_entries():
     """User views their entries"""
 
-    if "user_id" in session:
-        user_id = session["user_id"] 
-        print "\n\n\n\n\n session user_id", user_id
+    try:
+        if "user_id" in session:
+            user_id = session["user_id"] 
 
-        # sql = """SELECT entry_title, entry_body FROM entries WHERE user_id IS :user_id"""
-        # cursor = db.session.execute(sql, 
-        #                             {'user_id' : user_id})
+            user_entries = Entry.query.filter(Entry.user_id == user_id).all()
+        
+            quote, quote_author = get_quotes_for_footer()
 
-        # user_entries = cursor.fetchall()
-
-        user_entries = Entry.query.filter(Entry.user_id == user_id).all()
-        print "\n\n\n\n\n", user_entries #[<model.Entry object at 0x7f82825f8310>]
-    
+            return render_template("view_entries.html", 
+                                    user_entries=user_entries,
+                                    quote=quote,
+                                    quote_author=quote_author)
+    except:
 
         quote, quote_author = get_quotes_for_footer()
 
-        return render_template("view_entries.html", 
-                                user_entries=user_entries,
+        return render_template("view_entries.html",
                                 quote=quote,
-                                quote_author=quote_author)
+                                    quote_author=quote_author)
 
 @app.route('/logout')
 def logout_form():
