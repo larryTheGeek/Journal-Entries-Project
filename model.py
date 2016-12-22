@@ -114,7 +114,7 @@ class Tag(db.Model):  # many to many relationship between Tags and Entries
         return cls.query.filter_by(tag=tag).all()
 
 
-#Association Table
+# Association Table
 class EntryTag(db.Model):
     """Association table for the many to many relationship between entries and tags"""
 
@@ -133,7 +133,7 @@ class EntryTag(db.Model):
                       nullable=False)
 
     entry = db.relationship('Entry', backref='entries')
-    
+
     tag = db.relationship('Tag', backref='tags')
 
 
@@ -152,3 +152,26 @@ if __name__ == "__main__":
     connect_to_db(app, "postgresql:///entry")
 
     print "Connected to DB"
+
+# Example data for tests
+
+def example_data():
+
+    """Create some sample data for test.py"""
+
+    # Clear data 
+    User.query.delete()
+    Entry.query.delete()
+    Tag.query.delete()
+    EntryTag.query.delete()
+
+    exuser1 = User(1, 'fluffykitty', 'password123', 'youknowit@aol.com')
+
+    exentry1 = Entry(1, '2016-11-11 12:01AM', 'Update on my day', 'It was a good day and I felt like I could take on the world', 1)
+
+    extag1 = Tag('happy')
+
+    exentrytag = EntryTag(1, 1, 'happy')
+
+    db.session.add_all()
+    db.session.commit()
