@@ -22,3 +22,23 @@ class TestRoutes(unittest.TestCase):
         db.session.close()
         db.drop_all()
 
+    def test_homepage(self):
+        """Make sure that the Register button appears on the homepage"""
+
+        result = self.client.get('/')
+        print "test_homepage"
+        self.assertEqual(result.status_code, 200)
+        self.assertIn('Register', result.data)
+
+    def test_login(self):
+        pass
+
+    def test_registration(self):
+        pass
+
+    def test_view_entries(self):
+        pass
+
+
+if __name__=="__main__":
+    unittest.main()
