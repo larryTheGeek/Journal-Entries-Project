@@ -27,14 +27,22 @@ class TestRoutes(unittest.TestCase):
 
         result = self.client.get('/')
         print "test_homepage"
-        self.assertEqual(result.status_code, 200)
+        self.assertEqual(result.status_code, 200m
         self.assertIn('Register', result.data)
 
     def test_login(self):
-        pass
+        """Make sure that the login function works"""
+
+        result = self.client.post("/login",
+                            data={"username": "fluffykitty", "password": "password123"},
+                            follow_redirects=True)
+        self.assertIn("Title", result.data) #Journal Entry Title in entry.html
 
     def test_registration(self):
-        pass
+        result = self.client.post("/login",
+                            data={"username": "furryfriends", "password": "fureverfluffy", "email": "hellofriend@gmail.com"},
+                            follow_redirects=True)
+        self.assertIn("Title", result.data) #Journal Entry Title in entry.html
 
     def test_view_entries(self):
         pass
