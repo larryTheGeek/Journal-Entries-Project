@@ -86,7 +86,8 @@ def register():
 
     session["logged_in"] = True
 
-    flash("You have just registered! Login to start writing entries. Thank you!")
+    flash("""You have just registered! Login to start writing entries. 
+          Thank you!""")
 
     quote, quote_author = get_quotes_for_footer()
 
@@ -111,16 +112,20 @@ def new_entry():
                            quote_author=quote_author)
 
 
-@app.route('/entry', methods=['GET', 'POST'])
+@app.route('/view_entries', methods=['GET', 'POST'])
 def add_entry_to_db():
     """Save and redirect journal entries."""
 
     try:
         title = request.form["title"]
+        print "\n\n\n\n title", title
         body = request.form["journalBody"]
+        print "\n\n\n\n\n journal body", body
         tags = request.form.getlist('prof1')
+        print "\n\n\n\n tags", tags
 
         user_id = session['user_id']
+        print "\n\n\n\n user_id", user_id
 
         entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
 
@@ -130,9 +135,12 @@ def add_entry_to_db():
         db.session.add(entry)
         db.session.commit()
 
+        user_entries = Entry.query.filter(Entry.user_id == user_id).all()
+
         quote, quote_author = get_quotes_for_footer()
 
         return render_template("view_entries.html",
+                               user_entries=user_entries,
                                title=title,
                                body=body,
                                quote=quote,
@@ -149,25 +157,37 @@ def add_entry_to_db():
 def view_entries():
     """User views their entries"""
 
-    try:
-        if "user_id" in session:
-            user_id = session["user_id"] 
 
-            user_entries = Entry.query.filter(Entry.user_id == user_id).all()
+    if "user_id" in session:
+        user_id = session["user_id"] 
+
+        title = request.form["title"]
+        print "\n\n\n\n title", title
+        body = request.form["journalBody"]
+        print "\n\n\n\n\n journal body", body
+        tags = request.form.getlist('prof1')
+        print "\n\n\n\n tags", tags
+
+        user_id = session['user_id']
+        print "\n\n\n\n user_id", user_id
+
+        entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
+
+        # Need to consider entry_date
+        # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
+
+        db.session.add(entry)
+        db.session.commit()
+
+        user_entries = Entry.query.filter(Entry.user_id == user_id).all()
         
-            quote, quote_author = get_quotes_for_footer()
-
-            return render_template("view_entries.html", 
-                                    user_entries=user_entries,
-                                    quote=quote,
-                                    quote_author=quote_author)
-    except:
-
         quote, quote_author = get_quotes_for_footer()
 
-        return render_template("view_entries.html",
+        return render_template("view_entries.html", 
+                                user_entries=user_entries,
                                 quote=quote,
-                                    quote_author=quote_author)
+                                quote_author=quote_author)
+
 
 @app.route('/logout')
 def logout_form():

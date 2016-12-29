@@ -17,6 +17,17 @@ class TestRoutes(unittest.TestCase):
         db.create_all()
         example_data()
 
+    # def setUp(self):
+      # """Stuff to do before every test."""
+
+      # app.config['TESTING'] = True
+      # app.config['SECRET_KEY'] = 'key'
+      # self.client = app.test_client()
+
+      # with self.client as c:
+      #     with c.session_transaction() as sess:
+      #         sess['user_id'] = 1
+
     def tearDown(self):
 
         db.session.close()
