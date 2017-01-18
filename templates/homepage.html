@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}Homepage{% endblock %}
+{% block head %}
+  {{ super() }}
+
+<!-- {% endblock %} -->
+
+<!-- {% block content %} -->
+<br>
+<br>
+<br>
+
+
+<body id="homepage">
+    <div class="dynamic-container">
+        <div class="overlay"></div>
+        <!-- Not sure about best practice on this one but this amount of <br>
+        tags centers the text and buttons in a visually appealing way
+        Maybe there should be another container that's just blank instead? -->
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="advise">Tell me how you're feeling.</div>
+    </div>
+    <br>
+    <br>
+    <div class="dynamic-container">
+        <div class="row">
+            <!-- <div class="alert alert-success alert-dismissable">  -->
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <h4 class="flashes">{{ message[1] }}</h4>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+            {% endwith %}
+            </div>
+        </div>
+        <div class="row">
+            <div>
+        <!-- Login modal window -->
+                <div id='overlay'> <!--overlay semi-transparent layer that fills the visitor's viewport-->
+                    <!--bootstrap to center the modal window!-->
+                <div class="col-xs-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 modal" id="modal_l">
+                    <div class='content'> 
+                        <p>
+                            <a href id="close-modal">Close</a>
+
+                            <div id="login">   
+                              <h1>Welcome Back!</h1>
+                              <form action="/login" method="POST">
+                              
+                              
+                                <div class="field-wrap">
+                                  
+                                    <label id="username"> Username 
+                                    <span class="req">*</span>
+                                    </label>
+                                    <input type="username" name="username" required>
+                                </div>
+                              
+                              <br>
+                              <div class="field-wrap">
+
+                                <label id="password"> Password
+                                <span class="req">*</span>
+                                </label>
+
+                                <input type="password" name="password" required>
+                              </div>
+                              <br>
+                                <div>
+                                <p class="forgot"><a href="/recover">Forgot Username or Password?</a></p>
+                              
+                              </div>
+                        </p>    
+                    </div>
+                    <div>
+                      <input type="submit" value="Log In" class="btn btn-outline-info">
+                    </div>
+                    </form>
+                </div> <!-- closes modal -->
+                </div> <!-- closes overlay -->
+
+
+<!--Modal window for Registering -->
+        </div> <!-- closes row -->
+
+                <div class="row">
+            <div>
+        <!-- Register modal window -->
+                <div id='overlay_r'> <!--overlay semi-transparent layer that fills the visitor's viewport-->
+                    <!--bootstrap to center the modal window!-->
+                <div class="col-xs-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3 modal" id="modal_r">
+                    <div class='content'> 
+                        <p>
+                        <a href id="close-modal_r">Close</a>
+                            <div id="register">   
+                            <h2>Welcome Aboard</h2>
+                              
+                            <form action="{{ url_for('register') }}" method="POST">
+                              
+                                <div class="field-wrap">
+                                <label id="email">
+                                  Email <span class="req">*</span>
+                                </label>
+                                <input type="email" name="email" autocomplete="on" required> 
+                                <br>
+                                <br>
+                                <label id="username">
+                                  Username <span class="req">*</span>
+                                </label>
+                                <input type="username" autocomplete="off" name="username" required>
+                              </div>
+                              <br>
+
+                              <div class="field-wrap">
+                                <label id="password">
+                                  Password<span class="req">*</span>
+                                </label>
+
+                                <input type="password" autocomplete="off" name="password" required>
+                              </div>
+                              
+                        </p>    
+                        <div>
+                        <input type="submit" value="Register" class="btn btn-outline-info"></div>
+                            </form>
+                    </div>
+                    </div>
+                </div> <!-- closes modal -->
+                </div> <!-- closes overlay -->
+<!--         </div> -->
+        </div> <!-- closes row -->
+
+<!-- <br> -->
+<!-- <br>
+<br> -->
+
+
+    <div class="row" id="homepage_buttons">
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button id="login_btn" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Log In</button> 
+        </div>
+
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <button id="register_btn" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register</button>
+            <!-- insert modal window -->
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+
+<!--     <div class="row" id="placeholderkitten">
+        <div class="container-fluid">
+            <img src="http://placekitten.com/g/1250/200"/>
+        </div>
+    </div> -->
+
+    </div> <!-- closes main div -->
+</body>
+
+<script type="text/javascript">
+// When the page loads, the modal window is hidden
+$('.modal').hide();
+
+// When login is clicked - modal should be opened
+$("#login_btn").on("click", function() {
+    $("#modal_l").toggle();
+    //User cannot see the login and register buttons
+    $("#login_btn").toggle();
+    $("#register_btn").toggle();
+}
+);
+
+//When the user clicks outside the modal window show the login and register buttons
+//this isn't working only can exit the modal window by clicking the close link
+$('#close-modal' || '#overlay').on("click", function() {
+    $('.modal').hide();
+    $('#login_btn').show();
+    $('#register_btn').show();
+});
+
+$("#register_btn").on("click", function() {
+    $("#modal_r").toggle();
+    //User cannot see the login and register buttons
+    $("#login_btn").toggle();
+    $("#register_btn").toggle();
+
+}
+);
+
+
+</script>
+</body>
+{% endblock %}

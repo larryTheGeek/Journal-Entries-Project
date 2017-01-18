@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% set active_page = "index" %}
+
+{% block extra_js %}
+<!-- <script type="text/javascript" src="static/.js"></script> -->
+{% endblock %}
+{% block content %}
+<body>
+<br>
+<br>
+<br>
+<br>
+<div class="dynamic-container">
+    <div class="col-xs-12 col-md-6 col-lg-6 col-md-offset-3 col-lg-offset-3">
+    <h1>Here are your entries</h1>
+    <br>
+        <div class="content"> 
+            {% if user_entries %}
+                {% for u in user_entries %} 
+                <br>
+                        
+                        <h3> {{ u.__dict__['entry_title']|e }} </h3>
+                        <h4> {{ u.__dict__['entry_body']|e }} </h4>
+
+                <br>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+

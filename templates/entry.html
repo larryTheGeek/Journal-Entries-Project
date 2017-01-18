@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% set active_page = "index" %}
+
+{% block extra_js %}
+<!-- <script type="text/javascript" src="static/.js"></script> -->
+{% endblock %}
+{% block content %}
+
+
+<body>
+    <!-- Prevent Header from Covering Content -->
+    <br>
+    <br>
+    <br>
+
+    <!-- Flash functionality -->
+    <div class="dynamic-container">
+        <div class="row">
+            <div class="alert alert-success alert-dismissable"> 
+            <br>
+            <br>
+            <br>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> 
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul>
+                            {% for message in messages %}
+                                <h4 class="flashes">{{ message[1] }}</h4>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+            {% endwith %}
+            </div>
+        </div>
+
+        <!-- Journal Entry  -->
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1">
+            <!-- Save and Exit allows journal entry title and body to display on view_entries.
+            html https://mail.python.org/pipermail/flask/2015-September/000078.html-->
+            <form action="/view_entries" method="POST">
+                <br>
+                Journal Entry Title
+                <input type="textbox" id="subject" name="title"><br>
+                <br>
+
+                Tag 
+                <div class="container">
+                    <div class="row">
+                        <input type="hidden" name="count" value="1" />
+                            <div class="control-group" id="fields">
+                                <!-- <label class="control-label" for="field1">Nice Multiple Form Fields</label> -->
+                                <div class="controls" id="profs"> 
+                                    <!-- <form class="input-append"> -->
+                                        <div id="field">
+                                            <input autocomplete="off" class="input" id="field1" name="prof1" type="text" placeholder="How are you feeling?" data-items="8"/>
+                                            <button id="b1" class="btn add-more" type="button">+</button></div>
+                                    <!-- </form> -->
+                                <small>Press + to add a tag</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <br>
+                <br>
+
+                Journal Body<br>
+                <br>
+                <textarea id="entry" rows="15" cols="150" name="journalBody"></textarea><br>
+                <br>
+
+                <div id="submission-btn" class="text center">
+
+
+                    <button id="entry-save-and-quit" class="entry">Save and Exit</button><br><br><br>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</body>
+<br>
+<br>
+
+<!-- Will transfer JavaScript to separate file -->
+<script>
+//flash when the user logs in and removes div 
+$(".flashes").fadeOut(2000);
+$(".alert").fadeOut(2000);
+
+//tag field creation code
+$(".add-more").on("click", function() { 
+        var next = 1; 
+
+        $(".add-more").click(function(e) 
+            { e.preventDefault(); 
+            var addto = "#field" + next; var addRemove = "#field" + (next);
+            next = next + 1;
+        
+        var newIn = '<input autocomplete="off" class="input form-control" id="field' + next + '" name="field' + next + '" type="text">';
+        
+        var newInput = $(newIn);
+        
+        var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >-</button></div><div id="field">';
+        
+        var removeButton = $(removeBtn);
+        
+        $(addto).after(newInput);
+        $(addRemove).after(removeButton);
+        $("#field" + next).attr('data-source',$(addto).attr('data-source'));
+        $("#count").val(next);  
+        
+            $('.remove-me').click(function(e){
+                e.preventDefault();
+                var fieldNum = this.id.charAt(this.id.length-1);
+                var fieldID = "#field" + fieldNum;
+                $(this).remove();
+                $(fieldID).remove();
+            });
+    });
+    
+
+    
+});
+</script>
+{% endblock %}
+
