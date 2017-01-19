@@ -12,6 +12,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from flask.ext.login import current_user,current_app
 from sqlalchemy import func
 
+
 app = Flask(__name__)
 
 app.secret_key = "Shhhhh"
@@ -98,6 +99,11 @@ def register():
                            quote=quote,
                            quote_author=quote_author)
 
+    # except:
+    #     quote, quote_author = get_quotes_for_footer()
+
+    #     return redirect("/")
+
 
 @app.route('/new_entry')
 def new_entry():
@@ -151,7 +157,9 @@ def add_entry_to_db():
                                quote=quote,
                                quote_author=quote_author)
 
+
 @app.route('/view_entries_submitted', methods=['GET', 'POST'])
+
 def view_entries():
     """User views their entries"""
 
