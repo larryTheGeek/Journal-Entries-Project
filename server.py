@@ -10,6 +10,7 @@ from flask_login import login_required, current_user
 from flask_bcrypt import Bcrypt
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 # from flask.ext.login import current_user,current_app
+from sqlalchemy import func
 
 app = Flask(__name__)
 
@@ -74,8 +75,10 @@ def register():
     email = request.form["email"]
     password = bcrypt.generate_password_hash(request.form.get("password"))
 
+    # autoincrements user_id
+    user_id = db.session.query(func.max(User.user_id + 1))
     # Add the new user to the model
-    new_user = User(username=username, password=password, email=email)
+    new_user = User(user_id=user_id, username=username, password=password, email=email)
 
     # FIXME: grab the user_id to store in the session for later use.
     # user_id = db.session.query(User.user_id).filter_by(username=username).first()[0]
@@ -148,7 +151,7 @@ def add_entry_to_db():
                                quote=quote,
                                quote_author=quote_author)
 
-@app.route('/view_entries', methods=['GET', 'POST'])
+@app.route('/view_entries_submitted', methods=['GET', 'POST'])
 def view_entries():
     """User views their entries"""
 

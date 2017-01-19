@@ -12,8 +12,8 @@ class User(db.Model):  # one to many relationship between User - Entry
     # email to request their password if it's forgotten
 
     user_id = db.Column(db.Integer,
-                        autoincrement=True,
-                        primary_key=True)
+                        primary_key=True,
+                        autoincrement=True)
 
     username = db.Column(db.String(100),
                          nullable=False,
@@ -60,7 +60,7 @@ class Entry(db.Model):  # many to many relationship with tags, many to one with 
     __tablename__ = "entries"
 
     entry_id = db.Column(db.Integer, 
-                         autoincrement=True, 
+                         autoincrement=True,
                          primary_key=True)
     
     entry_date = db.Column(db.DateTime, 
