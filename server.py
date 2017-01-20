@@ -69,25 +69,22 @@ def handle_login():
 
 @app.route('/register', methods=['POST'])
 def register():
-    """Register the user"""
 
-    # try:
     username = request.form["username"]
     email = request.form["email"]
     password = bcrypt.generate_password_hash(request.form.get("password"))
 
-    # autoincrements user_id
+    # Autoincrements user_id
     user_id = db.session.query(func.max(User.user_id + 1))
+    
     # Add the new user to the model
     new_user = User(user_id=user_id, username=username, password=password, email=email)
 
-    # FIXME: grab the user_id to store in the session for later use.
-    # user_id = db.session.query(User.user_id).filter_by(username=username).first()[0]
-    # session['user_id']
 
     db.session.add(new_user)
     db.session.commit()
 
+    # Add the user to the session
     session["logged_in"] = True
 
     flash("""You have just registered! Login to start writing entries. 
@@ -98,11 +95,6 @@ def register():
     return render_template("entry.html",
                            quote=quote,
                            quote_author=quote_author)
-
-    # except:
-    #     quote, quote_author = get_quotes_for_footer()
-
-    #     return redirect("/")
 
 
 @app.route('/new_entry')
@@ -158,41 +150,31 @@ def add_entry_to_db():
                                quote_author=quote_author)
 
 
+# This works if the user has entries
 @app.route('/view_entries_submitted', methods=['GET', 'POST'])
-
 def view_entries():
-    """User views their entries"""
+    """User views their entries from the navbar link"""
 
-
+    # Get the user from the session
     if "user_id" in session:
         user_id = session["user_id"] 
 
-        title = request.form["title"]
-        print "\n\n\n\n title", title
-        body = request.form["journalBody"]
-        print "\n\n\n\n\n journal body", body
-        tags = request.form.getlist('prof1')
-        print "\n\n\n\n tags", tags
-
-        user_id = session['user_id']
-        print "\n\n\n\n user_id", user_id
-
-        entry = Entry(entry_body=body, entry_title=title, user_id=user_id)
-
-        # Need to consider entry_date
-        # entry_id = Entry(body=entry_body, entry_date=entry_date, username=username, tag=tag)
-
-        db.session.add(entry)
-        db.session.commit()
-
+        # Query the DB to get all entries
+        
         user_entries = Entry.query.filter(Entry.user_id == user_id).all()
         
+        # Include the navbar bottom for quotes
         quote, quote_author = get_quotes_for_footer()
 
-        return render_template("view_entries.html", 
-                                user_entries=user_entries,
-                                quote=quote,
-                                quote_author=quote_author)
+        try:
+            return render_template("view_entries.html", 
+                            user_entries=user_entries,
+                            quote=quote,
+                            quote_author=quote_author)
+        except:
+            return render_template("error.html",
+                                    quote=quote,
+                                    quote_author=quote_author)
 
 
 @app.route('/logout')
