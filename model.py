@@ -155,23 +155,23 @@ if __name__ == "__main__":
 
 # Example data for tests
 
-def example_data():
+# def example_data():
 
-    """Create some sample data for test.py"""
+#     """Create some sample data for test.py"""
 
-    # Clear data 
-    User.query.delete()
-    Entry.query.delete()
-    Tag.query.delete()
-    EntryTag.query.delete()
+#     # Clear data 
+#     User.query.delete()
+#     Entry.query.delete()
+#     Tag.query.delete()
+#     EntryTag.query.delete()
 
-    exuser1 = User(1, 'fluffykitty', 'password123', 'youknowit@aol.com')
+#     exuser1 = User(1, 'fluffykitty', 'password123', 'youknowit@aol.com')
 
-    exentry1 = Entry(1, '2016-11-11 12:01AM', 'Update on my day', 'It was a good day and I felt like I could take on the world', 1)
+#     exentry1 = Entry(1, '2016-11-11 12:01AM', 'Update on my day', 'It was a good day and I felt like I could take on the world', 1)
 
-    extag1 = Tag('happy')
+#     extag1 = Tag('happy')
 
-    exentrytag = EntryTag(1, 1, 'happy')
+#     exentrytag = EntryTag(1, 1, 'happy')
 
-    db.session.add_all()
-    db.session.commit()
+#     db.session.add_all()
+#     db.session.commit()
